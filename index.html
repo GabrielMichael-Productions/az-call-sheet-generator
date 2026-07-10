@@ -6,7 +6,7 @@
 <title>Call Sheet Generator — Filmmaker's Digital Cafe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-main: #F8FAFC;      
@@ -24,10 +24,6 @@
 
   * { box-sizing: border-box; }
   
-  @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-  }
-
   body {
     margin: 0;
     background-color: var(--bg-main);
@@ -241,45 +237,76 @@
   .error { color: var(--status-unpaid); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
   .error.show { display: block; }
 
+  /* Output Terminal Box Update */
   .ticket {
-    margin-top: 24px; 
-    background: #0F172A; 
+    margin-top: 32px; 
+    background: #090D16; 
+    border: 1px solid #1E293B;
     border-radius: 16px; 
-    padding: 24px; 
+    padding: 28px; 
     display: none; 
-    white-space: pre-wrap;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px; 
-    line-height: 1.6; 
-    position: relative;
-    color: #F8FAFC;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
   .ticket.show { display: block; }
   
+  .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1E293B;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+
   .ticket .tlabel {
     font-family: 'Inter', sans-serif;
-    font-size: 11px; 
-    letter-spacing: 0.1em; 
+    font-size: 12px; 
+    letter-spacing: 0.05em; 
     text-transform: uppercase; 
-    color: var(--accent-electric);
-    margin-bottom: 16px; 
-    font-weight: 700;
+    color: #94A3B8;
+    font-weight: 600;
+  }
+
+  .window-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #334155;
+  }
+
+  #ticketText {
+    white-space: pre-wrap;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px; 
+    line-height: 1.7; 
+    color: #E2E8F0;
+  }
+
+  .copy-container {
+    border-top: 1px solid #1E293B;
+    margin-top: 24px;
+    padding-top: 16px;
+    display: flex;
+    justify-content: flex-end;
   }
   
   button.copy {
-    margin-top: 20px; 
-    background: #1E293B; 
-    border: 1px solid transparent; 
+    background: var(--accent-electric); 
+    border: none; 
     border-radius: 8px; 
     color: #FFFFFF;
-    padding: 10px 16px; 
+    padding: 10px 20px; 
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 600; 
     cursor: pointer;
     transition: all 0.15s ease;
   }
-  button.copy:hover { background: #334155; }
+  button.copy:hover { filter: brightness(1.1); }
   button.copy.copied { background: var(--status-paid); color: #FFFFFF; }
 
   footer {
@@ -297,21 +324,21 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
-    <h1>Call Sheet Generator</h1>
-    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
+    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>[cite: 1]
+    <h1>Call Sheet Generator</h1>[cite: 1]
+    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>[cite: 1]
   </div>
 </header>
 
 <main class="wrap">
   <div class="sheet">
-    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>
+    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>[cite: 1]
 
     <form id="callForm">
       <fieldset>
-        <legend>What's this for</legend>
+        <legend>What's this for</legend>[cite: 1]
         <div class="field">
-          <label for="postType">Post type <span class="req">*</span></label>
+          <label for="postType">Post type <span class="req">*</span></label>[cite: 1]
           <select id="postType" required>
             <option value="">Choose one</option>
             <option value="Cast Call">Cast Call</option>
@@ -322,100 +349,106 @@
           </select>
         </div>
         <div class="field">
-          <label for="projectTitle">Project title <span class="req">*</span></label>
-          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>
+          <label for="projectTitle">Project title <span class="req">*</span></label>[cite: 1]
+          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>[cite: 1]
         </div>
         <div class="field">
-          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
-          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>
+          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>[cite: 1]
+          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>[cite: 1]
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Where and when</legend>
+        <legend>Where and when</legend>[cite: 1]
         <div class="grid2">
           <div class="field">
-            <label for="city">City <span class="req">*</span></label>
-            <input type="text" id="city" placeholder="e.g. Tucson" required>
+            <label for="city">City <span class="req">*</span></label>[cite: 1]
+            <input type="text" id="city" placeholder="e.g. Tucson" required>[cite: 1]
           </div>
           <div class="field">
-            <label for="locationDetail">Neighborhood / venue (optional)</label>
-            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">
+            <label for="locationDetail">Neighborhood / venue (optional)</label>[cite: 1]
+            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">[cite: 1]
           </div>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="shootDate">Date(s) <span class="req">*</span></label>
-            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>
+            <label for="shootDate">Date(s) <span class="req">*</span></label>[cite: 1]
+            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>[cite: 1]
           </div>
           <div class="field">
-            <label for="callTime">Call time <span class="req">*</span></label>
-            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>
+            <label for="callTime">Call time <span class="req">*</span></label>[cite: 1]
+            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>[cite: 1]
           </div>
         </div>
         <div class="field">
-          <label for="duration">Estimated length of day <span class="req">*</span></label>
-          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>
+          <label for="duration">Estimated length of day <span class="req">*</span></label>[cite: 1]
+          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>[cite: 1]
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Pay and craft services</legend>
+        <legend>Pay and craft services</legend>[cite: 1]
         <div class="field">
-          <label>Paid or unpaid <span class="req">*</span></label>
+          <label>Paid or unpaid <span class="req">*</span></label>[cite: 1]
           <div class="stamp-toggle">
-            <button type="button" class="stamp-btn" data-val="paid">Paid</button>
-            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>
+            <button type="button" class="stamp-btn" data-val="paid">Paid</button>[cite: 1]
+            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>[cite: 1]
           </div>
-          <div class="stamp-preview" id="stampPreview"></div>
+          <div class="stamp-preview" id="stampPreview"></div>[cite: 1]
         </div>
         <div class="field" id="rateField" style="display:none;">
-          <label for="rate">Rate <span class="req">*</span></label>
-          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
+          <label for="rate">Rate <span class="req">*</span></label>[cite: 1]
+          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">[cite: 1]
         </div>
         <div class="field" id="otherCompField" style="display:none;">
-          <label for="otherComp">Other compensation <span class="req">*</span></label>
-          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
+          <label for="otherComp">Other compensation <span class="req">*</span></label>[cite: 1]
+          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">[cite: 1]
         </div>
         <div class="field">
-          <label>Craft services available? <span class="req">*</span></label>
+          <label>Craft services available? <span class="req">*</span></label>[cite: 1]
           <div class="craft-row">
-            <div class="pill" data-craft="Yes">Yes</div>
-            <div class="pill" data-craft="No">No</div>
-            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>
+            <div class="pill" data-craft="Yes">Yes</div>[cite: 1]
+            <div class="pill" data-craft="No">No</div>[cite: 1]
+            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>[cite: 1]
           </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>How to apply</legend>
+        <legend>How to apply</legend>[cite: 1]
         <div class="field">
-          <label for="contact">Contact method <span class="req">*</span></label>
-          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>
+          <label for="contact">Contact method <span class="req">*</span></label>[cite: 1]
+          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>[cite: 1]
         </div>
         <div class="field">
-          <label for="extra">Additional details (optional)</label>
-          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>
+          <label for="extra">Additional details (optional)</label>[cite: 1]
+          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>[cite: 1]
         </div>
       </fieldset>
 
       <div class="generate-bar">
-        <button type="submit" class="generate">Stamp &amp; Generate Post</button>
-        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>
+        <button type="submit" class="generate">Stamp &amp; Generate Post</button>[cite: 1]
+        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>[cite: 1]
       </div>
     </form>
   </div>
 
+  <!-- Terminal Window Format Container -->
   <div class="ticket" id="ticket">
-    <div class="tlabel">Ready to post</div>
+    <div class="ticket-header">
+      <div class="tlabel">Generated Output Block</div>
+      <div class="window-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
     <div id="ticketText"></div>
-    <button class="copy" id="copyBtn">Copy post text</button>
+    <div class="copy-container">
+      <button class="copy" id="copyBtn">Copy Post Text</button>
+    </div>
   </div>
 </main>
 
 <footer>
-  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
-  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
+  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.[cite: 1]<br>
+  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>[cite: 1]
 </footer>
 
 <script>
@@ -472,29 +505,28 @@ document.getElementById('callForm').addEventListener('submit', function(e){
   const val = id => document.getElementById(id).value.trim();
 
   const payLine = payStatus === 'paid'
-    ? `💰 Rate: PAID — ${val('rate')}`
-    : `🚫 Rate: UNPAID — Other compensation: ${val('otherComp')}`;
+    ? `Compensation: Paid (${val('rate')})`
+    : `Compensation: Unpaid (Other compensation: ${val('otherComp')})`;
 
   const lines = [
-    `🎬 ${val('postType').toUpperCase()}: ${val('projectTitle')}`,
-    `━`.repeat(25),
-    `[ ROLES / POSITIONS ]`,
-    val('roleNeeded'),
-    `━`.repeat(25),
-    `📍 Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
-    `📅 Date(s): ${val('shootDate')}`,
-    `⏰ Call Time: ${val('callTime')}`,
-    `⏳ Day Length: ${val('duration')}`,
+    `${val('postType').toUpperCase()}: ${val('projectTitle')}`,
+    `\n[ PRODUCTION DETAILS ]`,
+    `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+    `Date(s): ${val('shootDate')}`,
+    `Call Time: ${val('callTime')}`,
+    `Estimated Day Length: ${val('duration')}`,
     payLine,
-    `🍿 Craft Services: ${craftStatus}`,
-    `📬 How to Apply: ${val('contact')}`,
+    `Craft Services: ${craftStatus}`,
+    `How to Apply: ${val('contact')}`,
+    `\n[ ROLES & POSITIONS ]`,
+    val('roleNeeded')
   ];
 
   if(val('extra')){
-    lines.push(``, `📝 Additional Details:\n${val('extra')}`);
+    lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
   }
 
-  lines.push(``, `— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
+  lines.push(`\n— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
 
   const output = lines.join('\n');
   document.getElementById('ticketText').textContent = output;
@@ -508,7 +540,7 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
     const btn = document.getElementById('copyBtn');
     btn.textContent = 'Copied ✓';
     btn.classList.add('copied');
-    setTimeout(()=>{ btn.textContent = 'Copy post text'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(()=>{ btn.textContent = 'Copy Post Text'; btn.classList.remove('copied'); }, 2000);
   });
 });
 </script>
