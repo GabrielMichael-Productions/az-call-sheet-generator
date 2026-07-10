@@ -6,62 +6,59 @@
 <title>Call Sheet Generator — Filmmaker's Digital Cafe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-main: #F8FAFC;      
-    --card-bg: #FFFFFF;      
-    --card-border: #E2E8F0;  
-    --input-bg: #F1F5F9;     
-    --text-primary: #0F172A;  
-    --text-secondary: #475569;
-    --text-placeholder: #94A3B8;
-    --accent-electric: #2563EB;
-    --accent-glow: rgba(37, 99, 235, 0.15);
-    --status-paid: #059669;   
-    --status-unpaid: #DC2626; 
+    --bg-app: #F8FAFC;      
+    --surface-card: #FFFFFF;      
+    --border-subtle: #E2E8F0;  
+    --bg-input: #F1F5F9;     
+    --text-main: #0F172A;  
+    --text-muted: #475569;
+    --text-light: #94A3B8;
+    --brand-blue: #2563EB;
+    --brand-glow: rgba(37, 99, 235, 0.12);
+    --green-success: #059669;   
+    --red-alert: #DC2626; 
   }
 
   * { box-sizing: border-box; }
   
   body {
     margin: 0;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    background-color: var(--bg-app);
+    color: var(--text-main);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding: 40px 16px;
+    padding: 48px 16px;
   }
 
-  .wrap { max-width: 640px; margin: 0 auto; }
+  .wrap { max-width: 620px; margin: 0 auto; }
 
   header.hero {
     text-align: center;
-    margin-bottom: 36px;
-    padding: 0 8px;
+    margin-bottom: 40px;
   }
 
   .eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--accent-electric);
+    color: var(--brand-blue);
     font-weight: 600;
     margin-bottom: 12px;
   }
 
   h1 {
-    font-size: clamp(28px, 5vw, 38px);
+    font-size: clamp(26px, 5vw, 36px);
     font-weight: 700;
     letter-spacing: -0.02em;
     margin: 0 0 12px;
-    color: var(--text-primary);
+    color: var(--text-main);
   }
 
   header.hero p {
-    color: var(--text-secondary);
-    max-width: 52ch;
+    color: var(--text-muted);
     line-height: 1.6;
     font-size: 15px;
     margin: 0 auto;
@@ -69,10 +66,10 @@
   }
 
   .sheet {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
     overflow: hidden;
     padding: 8px;
   }
@@ -81,32 +78,29 @@
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    padding: 16px 20px 4px;
-    font-family: 'IBM Plex Mono', monospace;
+    padding: 16px 24px 4px;
     font-size: 11px; 
-    letter-spacing: 0.1em; 
+    letter-spacing: 0.05em; 
     text-transform: uppercase; 
-    color: var(--text-secondary);
+    color: var(--text-light);
     font-weight: 600;
   }
 
   fieldset { 
     border: none; 
-    padding: 24px 20px; 
+    padding: 24px 24px; 
     margin: 0; 
-    border-bottom: 1px solid var(--card-border); 
+    border-bottom: 1px solid var(--border-subtle); 
   }
   fieldset:last-of-type { border-bottom: none; }
   
   legend {
-    color: var(--text-primary); 
+    color: var(--text-main); 
     font-weight: 700; 
     padding: 0; 
     margin-bottom: 20px;
-    text-transform: uppercase;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.05em;
+    font-size: 14px;
+    letter-spacing: -0.01em;
   }
 
   .field { margin-bottom: 20px; }
@@ -115,35 +109,35 @@
   label {
     display: block; 
     font-size: 13px; 
-    color: var(--text-primary); 
+    color: var(--text-muted); 
     margin-bottom: 8px; 
-    font-weight: 600;
+    font-weight: 500;
   }
-  label .req { color: var(--status-unpaid); margin-left: 2px; }
+  label .req { color: var(--red-alert); margin-left: 2px; }
 
   input[type=text], select, textarea {
     width: 100%; 
     font-family: inherit;
-    font-size: 15px; 
-    color: var(--text-primary);
-    background: var(--input-bg); 
+    font-size: 14px; 
+    color: var(--text-main);
+    background: var(--bg-input); 
     border: 1px solid transparent; 
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 12px 14px; 
     outline: none; 
     transition: all .15s ease-in-out;
   }
-  input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
+  input::placeholder, textarea::placeholder { color: var(--text-light); }
   
   input:focus, select:focus, textarea:focus { 
-    border-color: var(--accent-electric); 
-    box-shadow: 0 0 0 4px var(--accent-glow);
+    border-color: var(--brand-blue); 
+    box-shadow: 0 0 0 4px var(--brand-glow);
     background: #FFFFFF;
   }
 
   textarea {
     resize: vertical;
-    min-height: 140px;
+    min-height: 120px;
     field-sizing: content; 
     line-height: 1.6;
   }
@@ -166,34 +160,33 @@
     flex: 1; 
     padding: 12px; 
     text-align: center;
-    border: 1px solid var(--card-border); 
-    border-radius: 10px; 
-    background: var(--input-bg); 
-    color: var(--text-secondary);
-    font-weight: 600;
+    border: 1px solid var(--border-subtle); 
+    border-radius: 8px; 
+    background: var(--bg-input); 
+    color: var(--text-muted);
+    font-weight: 500;
     font-size: 14px; 
     cursor: pointer;
     transition: all 0.15s ease;
   }
-  .stamp-btn:hover { background: #E2E8F0; color: var(--text-primary); }
-  .stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.1); border-color: var(--status-paid); color: var(--status-paid); }
-  .stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.1); border-color: var(--status-unpaid); color: var(--status-unpaid); }
+  .stamp-btn:hover { background: #E2E8F0; color: var(--text-main); }
+  .stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.08); border-color: var(--green-success); color: var(--green-success); font-weight: 600; }
+  .stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.08); border-color: var(--red-alert); color: var(--red-alert); font-weight: 600; }
 
-  .stamp-preview { margin-top: 14px; display: none; align-items: center; justify-content: flex-start; }
+  .stamp-preview { margin-top: 12px; display: none; align-items: center; justify-content: flex-start; }
   .stamp-preview.show { display: flex; }
   .stamp-mark {
     display: inline-block; 
-    border: 1px solid var(--status-unpaid); 
-    border-radius: 6px; 
-    color: var(--status-unpaid);
-    font-family: 'IBM Plex Mono', monospace; 
-    font-weight: 700; 
-    letter-spacing: 0.1em;
+    border: 1px solid var(--red-alert); 
+    border-radius: 4px; 
+    color: var(--red-alert);
     font-size: 11px; 
-    padding: 4px 10px;
-    background: rgba(220, 38, 38, 0.05);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    background: rgba(220, 38, 38, 0.04);
   }
-  .stamp-mark.paid { border-color: var(--status-paid); color: var(--status-paid); background: rgba(5, 150, 105, 0.05); }
+  .stamp-mark.paid { border-color: var(--green-success); color: var(--green-success); background: rgba(5, 150, 105, 0.04); }
 
   .craft-row { display: flex; gap: 10px; }
   @media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
@@ -202,50 +195,49 @@
     flex: 1; 
     padding: 12px 10px; 
     text-align: center; 
-    border: 1px solid var(--card-border); 
-    border-radius: 10px;
-    background: var(--input-bg); 
+    border: 1px solid var(--border-subtle); 
+    border-radius: 8px;
+    background: var(--bg-input); 
     cursor: pointer; 
     font-size: 14px; 
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     transition: all 0.15s ease;
   }
-  .pill:hover { background: #E2E8F0; color: var(--text-primary); }
-  .pill.active { border-color: var(--accent-electric); color: #FFFFFF; background: var(--accent-electric); }
+  .pill:hover { background: #E2E8F0; color: var(--text-main); }
+  .pill.active { border-color: var(--brand-blue); color: #FFFFFF; background: var(--brand-blue); font-weight: 600; }
 
-  .generate-bar { padding: 16px 20px 24px; }
+  .generate-bar { padding: 8px 24px 24px; }
   
   button.generate {
     width: 100%; 
-    padding: 15px; 
-    background: var(--accent-electric); 
+    padding: 14px; 
+    background: var(--brand-blue); 
     color: #FFFFFF;
     border: none; 
-    border-radius: 12px; 
+    border-radius: 8px; 
     font-weight: 600;
-    font-size: 15px; 
+    font-size: 14px; 
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px var(--accent-glow);
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 8px var(--brand-glow);
   }
   button.generate:hover { 
-    box-shadow: 0 6px 16px var(--accent-glow);
+    box-shadow: 0 4px 16px var(--brand-glow);
     filter: brightness(1.05);
   }
   
-  .error { color: var(--status-unpaid); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
+  .error { color: var(--red-alert); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
   .error.show { display: block; }
 
-  /* Output Terminal Box Update */
   .ticket {
     margin-top: 32px; 
     background: #090D16; 
     border: 1px solid #1E293B;
-    border-radius: 16px; 
-    padding: 28px; 
+    border-radius: 12px; 
+    padding: 24px; 
     display: none; 
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
   }
   .ticket.show { display: block; }
   
@@ -254,12 +246,11 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #1E293B;
-    padding-bottom: 16px;
+    padding-bottom: 12px;
     margin-bottom: 20px;
   }
 
   .ticket .tlabel {
-    font-family: 'Inter', sans-serif;
     font-size: 12px; 
     letter-spacing: 0.05em; 
     text-transform: uppercase; 
@@ -267,22 +258,13 @@
     font-weight: 600;
   }
 
-  .window-dots {
-    display: flex;
-    gap: 6px;
-  }
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #334155;
-  }
+  .window-dots { display: flex; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
 
   #ticketText {
     white-space: pre-wrap;
-    font-family: 'Inter', -apple-system, sans-serif;
-    font-size: 15px; 
-    line-height: 1.7; 
+    font-size: 14px; 
+    line-height: 1.6; 
     color: #E2E8F0;
   }
 
@@ -295,19 +277,18 @@
   }
   
   button.copy {
-    background: var(--accent-electric); 
+    background: var(--brand-blue); 
     border: none; 
-    border-radius: 8px; 
+    border-radius: 6px; 
     color: #FFFFFF;
-    padding: 10px 20px; 
-    font-family: 'Inter', sans-serif;
+    padding: 10px 18px; 
     font-size: 13px;
     font-weight: 600; 
     cursor: pointer;
     transition: all 0.15s ease;
   }
   button.copy:hover { filter: brightness(1.1); }
-  button.copy.copied { background: var(--status-paid); color: #FFFFFF; }
+  button.copy.copied { background: var(--green-success); color: #FFFFFF; }
 
   footer {
     text-align: center; 
@@ -316,29 +297,29 @@
     font-size: 12px;
     line-height: 1.6;
   }
-  footer a { color: var(--text-secondary); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
-  footer a:hover { color: var(--accent-electric); }
+  footer a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
+  footer a:hover { color: var(--brand-blue); }
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>[cite: 1]
-    <h1>Call Sheet Generator</h1>[cite: 1]
-    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>[cite: 1]
+    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
+    <h1>Call Sheet Generator</h1>
+    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
   </div>
 </header>
 
 <main class="wrap">
   <div class="sheet">
-    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>[cite: 1]
+    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>
 
     <form id="callForm">
       <fieldset>
-        <legend>What's this for</legend>[cite: 1]
+        <legend>What's this for</legend>
         <div class="field">
-          <label for="postType">Post type <span class="req">*</span></label>[cite: 1]
+          <label for="postType">Post type <span class="req">*</span></label>
           <select id="postType" required>
             <option value="">Choose one</option>
             <option value="Cast Call">Cast Call</option>
@@ -349,91 +330,90 @@
           </select>
         </div>
         <div class="field">
-          <label for="projectTitle">Project title <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>[cite: 1]
+          <label for="projectTitle">Project title <span class="req">*</span></label>
+          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>
         </div>
         <div class="field">
-          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>[cite: 1]
-          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>[cite: 1]
+          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
+          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Equipment details)" required></textarea>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Where and when</legend>[cite: 1]
+        <legend>Where and when</legend>
         <div class="grid2">
           <div class="field">
-            <label for="city">City <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="city" placeholder="e.g. Tucson" required>[cite: 1]
+            <label for="city">City <span class="req">*</span></label>
+            <input type="text" id="city" placeholder="e.g. Tucson" required>
           </div>
           <div class="field">
-            <label for="locationDetail">Neighborhood / venue (optional)</label>[cite: 1]
-            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">[cite: 1]
+            <label for="locationDetail">Neighborhood / venue (optional)</label>
+            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">
           </div>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="shootDate">Date(s) <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>[cite: 1]
+            <label for="shootDate">Date(s) <span class="req">*</span></label>
+            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>
           </div>
           <div class="field">
-            <label for="callTime">Call time <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>[cite: 1]
+            <label for="callTime">Call time <span class="req">*</span></label>
+            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>
           </div>
         </div>
         <div class="field">
-          <label for="duration">Estimated length of day <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>[cite: 1]
+          <label for="duration">Estimated length of day <span class="req">*</span></label>
+          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Pay and craft services</legend>[cite: 1]
+        <legend>Pay and craft services</legend>
         <div class="field">
-          <label>Paid or unpaid <span class="req">*</span></label>[cite: 1]
+          <label>Paid or unpaid <span class="req">*</span></label>
           <div class="stamp-toggle">
-            <button type="button" class="stamp-btn" data-val="paid">Paid</button>[cite: 1]
-            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>[cite: 1]
+            <button type="button" class="stamp-btn" data-val="paid">Paid</button>
+            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>
           </div>
-          <div class="stamp-preview" id="stampPreview"></div>[cite: 1]
+          <div class="stamp-preview" id="stampPreview"></div>
         </div>
         <div class="field" id="rateField" style="display:none;">
-          <label for="rate">Rate <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">[cite: 1]
+          <label for="rate">Rate <span class="req">*</span></label>
+          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
         </div>
         <div class="field" id="otherCompField" style="display:none;">
-          <label for="otherComp">Other compensation <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">[cite: 1]
+          <label for="otherComp">Other compensation <span class="req">*</span></label>
+          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
         </div>
         <div class="field">
-          <label>Craft services available? <span class="req">*</span></label>[cite: 1]
+          <label>Craft services available? <span class="req">*</span></label>
           <div class="craft-row">
-            <div class="pill" data-craft="Yes">Yes</div>[cite: 1]
-            <div class="pill" data-craft="No">No</div>[cite: 1]
-            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>[cite: 1]
+            <div class="pill" data-craft="Yes">Yes</div>
+            <div class="pill" data-craft="No">No</div>
+            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>
           </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>How to apply</legend>[cite: 1]
+        <legend>How to apply</legend>
         <div class="field">
-          <label for="contact">Contact method <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>[cite: 1]
+          <label for="contact">Contact method <span class="req">*</span></label>
+          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>
         </div>
         <div class="field">
-          <label for="extra">Additional details (optional)</label>[cite: 1]
-          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>[cite: 1]
+          <label for="extra">Additional details (optional)</label>
+          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>
         </div>
       </fieldset>
 
       <div class="generate-bar">
-        <button type="submit" class="generate">Stamp &amp; Generate Post</button>[cite: 1]
-        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>[cite: 1]
+        <button type="submit" class="generate">Stamp &amp; Generate Post</button>
+        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>
       </div>
     </form>
   </div>
 
-  <!-- Terminal Window Format Container -->
   <div class="ticket" id="ticket">
     <div class="ticket-header">
       <div class="tlabel">Generated Output Block</div>
@@ -447,8 +427,8 @@
 </main>
 
 <footer>
-  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.[cite: 1]<br>
-  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>[cite: 1]
+  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
+  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
 </footer>
 
 <script>
