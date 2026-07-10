@@ -327,7 +327,7 @@
         </div>
         <div class="field">
           <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
-          <textarea id="roleNeeded" placeholder="Cast:&#10;&#10;&#10;Crew:" required></textarea>
+          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>
         </div>
       </fieldset>
 
@@ -376,12 +376,6 @@
         <div class="field" id="otherCompField" style="display:none;">
           <label for="otherComp">Other compensation <span class="req">*</span></label>
           <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
-        </div>
-        <div class="field" id="fairPayField" style="display:none;">
-          <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer; color:var(--text-secondary);">
-            <input type="checkbox" id="fairPayNote" checked style="width:auto; margin:0;">
-            Add a short note encouraging fair pay
-          </label>
         </div>
         <div class="field">
           <label>Craft services available? <span class="req">*</span></label>
@@ -437,21 +431,18 @@ document.querySelectorAll('.stamp-btn').forEach(btn=>{
     payStatus = btn.dataset.val;
     const rateField = document.getElementById('rateField');
     const otherCompField = document.getElementById('otherCompField');
-    const fairPayField = document.getElementById('fairPayField');
     const preview = document.getElementById('stampPreview');
     if(payStatus === 'paid'){
       rateField.style.display = 'block';
       document.getElementById('rate').required = true;
       otherCompField.style.display = 'none';
       document.getElementById('otherComp').required = false;
-      fairPayField.style.display = 'none';
       preview.innerHTML = '<span class="stamp-mark paid">PAID</span>';
     } else {
       rateField.style.display = 'none';
       document.getElementById('rate').required = false;
       otherCompField.style.display = 'block';
       document.getElementById('otherComp').required = true;
-      fairPayField.style.display = 'block';
       preview.innerHTML = '<span class="stamp-mark">UNPAID</span>';
     }
     preview.classList.add('show');
@@ -502,9 +493,7 @@ document.getElementById('callForm').addEventListener('submit', function(e){
     lines.push(``, `Details: ${val('extra')}`);
   }
 
-  if(payStatus === 'unpaid' && document.getElementById('fairPayNote').checked){
-    lines.push(``, `Note from the mods: if your budget covers other production costs, please consider budgeting for your cast/crew too — even a small day rate, gas, or a meal stipend goes a long way.`);
-  }
+  // Extraneous scripted note injection completely scrubbed out
 
   lines.push(``, `— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
 
