@@ -9,16 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-main: #0B0F17;
-    --card-bg: rgba(22, 30, 46, 0.6);
-    --card-border: rgba(255, 255, 255, 0.06);
-    --input-bg: #161E2E;
-    --text-primary: #F3F4F6;
-    --text-secondary: #9CA3AF;
-    --accent-electric: #3B82F6;
-    --accent-glow: rgba(59, 130, 246, 0.25);
-    --status-paid: #10B981;
-    --status-unpaid: #EF4444;
+    --bg-main: #F8FAFC;      /* Crisp, bright gallery background */
+    --card-bg: #FFFFFF;      /* Clean white card surface */
+    --card-border: #E2E8F0;  /* Subtle structural dividing lines */
+    --input-bg: #F1F5F9;     /* Soft grey fields to anchor the text */
+    --text-primary: #0F172A;  /* Deep dark slate for 100% readability */
+    --text-secondary: #475569;/* High-contrast slate for labels */
+    --text-placeholder: #94A3B8;
+    --accent-electric: #2563EB;/* Premium bright blue brand accent */
+    --accent-glow: rgba(37, 99, 235, 0.15);
+    --status-paid: #059669;   /* Vivid emerald */
+    --status-unpaid: #DC2626; /* Vivid crimson */
   }
 
   * { box-sizing: border-box; }
@@ -33,32 +34,33 @@
     color: var(--text-primary);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding: 60px 20px;
+    padding: 40px 16px;
   }
 
-  .wrap { max-width: 680px; margin: 0 auto; }
+  .wrap { max-width: 640px; margin: 0 auto; }
 
   header.hero {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 36px;
+    padding: 0 8px;
   }
 
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--accent-electric);
     font-weight: 600;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   h1 {
-    font-size: clamp(32px, 6vw, 42px);
+    font-size: clamp(28px, 5vw, 38px);
     font-weight: 700;
-    letter-spacing: -0.03em;
-    margin: 0 0 16px;
-    color: #FFFFFF;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: var(--text-primary);
   }
 
   header.hero p {
@@ -73,53 +75,54 @@
   .sheet {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 24px;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
     overflow: hidden;
-    padding: 12px;
+    padding: 8px;
   }
 
   .slug {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    padding: 20px 24px 8px;
+    padding: 16px 20px 4px;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px; 
-    letter-spacing: 0.15em; 
+    letter-spacing: 0.1em; 
     text-transform: uppercase; 
     color: var(--text-secondary);
-    opacity: 0.8;
+    font-weight: 600;
   }
 
   fieldset { 
     border: none; 
-    padding: 32px 24px; 
+    padding: 24px 20px; 
     margin: 0; 
     border-bottom: 1px solid var(--card-border); 
   }
   fieldset:last-of-type { border-bottom: none; }
   
   legend {
-    font-size: 16px; 
-    letter-spacing: -0.01em;
-    color: #FFFFFF; 
-    font-weight: 600; 
+    font-size: 15px; 
+    color: var(--text-primary); 
+    font-weight: 700; 
     padding: 0; 
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
   }
 
-  .field { margin-bottom: 24px; }
+  .field { margin-bottom: 20px; }
   .field:last-child { margin-bottom: 0; }
   
   label {
     display: block; 
     font-size: 13px; 
-    color: var(--text-secondary); 
-    margin-bottom: 9px; 
-    font-weight: 500;
+    color: var(--text-primary); 
+    margin-bottom: 8px; 
+    font-weight: 600;
   }
   label .req { color: var(--status-unpaid); margin-left: 2px; }
 
@@ -127,54 +130,54 @@
     width: 100%; 
     font-family: inherit;
     font-size: 15px; 
-    color: #FFFFFF;
+    color: var(--text-primary);
     background: var(--input-bg); 
     border: 1px solid transparent; 
-    border-radius: 12px;
-    padding: 14px 16px; 
+    border-radius: 10px;
+    padding: 12px 14px; 
     outline: none; 
-    transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all .15s ease-in-out;
   }
-  input::placeholder, textarea::placeholder { color: #4B5563; }
+  input::placeholder, textarea::placeholder { color: var(--text-placeholder); }
   
   input:focus, select:focus, textarea:focus { 
     border-color: var(--accent-electric); 
     box-shadow: 0 0 0 4px var(--accent-glow);
-    background: #1E293B;
+    background: #FFFFFF;
   }
   
   select {
     appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 16px center;
+    background-position: right 14px center;
     background-size: 16px;
     padding-right: 40px;
   }
 
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 24px; } }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 16px; } }
 
-  .stamp-toggle { display: flex; gap: 12px; }
+  .stamp-toggle { display: flex; gap: 10px; }
   
   .stamp-btn {
     flex: 1; 
-    padding: 14px; 
+    padding: 12px; 
     text-align: center;
     border: 1px solid var(--card-border); 
-    border-radius: 12px; 
+    border-radius: 10px; 
     background: var(--input-bg); 
     color: var(--text-secondary);
     font-weight: 600;
     font-size: 14px; 
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
   }
-  .stamp-btn:hover { background: #1E293B; color: #FFFFFF; }
-  .stamp-btn.active[data-val="paid"] { background: rgba(16, 185, 129, 0.15); border-color: var(--status-paid); color: var(--status-paid); }
-  .stamp-btn.active[data-val="unpaid"] { background: rgba(239, 68, 68, 0.15); border-color: var(--status-unpaid); color: var(--status-unpaid); }
+  .stamp-btn:hover { background: #E2E8F0; color: var(--text-primary); }
+  .stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.1); border-color: var(--status-paid); color: var(--status-paid); }
+  .stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.1); border-color: var(--status-unpaid); color: var(--status-unpaid); }
 
-  .stamp-preview { margin-top: 16px; display: none; align-items: center; justify-content: flex-start; }
+  .stamp-preview { margin-top: 14px; display: none; align-items: center; justify-content: flex-start; }
   .stamp-preview.show { display: flex; }
   .stamp-mark {
     display: inline-block; 
@@ -186,104 +189,101 @@
     letter-spacing: 0.1em;
     font-size: 11px; 
     padding: 4px 10px;
-    background: rgba(239, 68, 68, 0.05);
+    background: rgba(220, 38, 38, 0.05);
   }
-  .stamp-mark.paid { border-color: var(--status-paid); color: var(--status-paid); background: rgba(16, 185, 129, 0.05); }
+  .stamp-mark.paid { border-color: var(--status-paid); color: var(--status-paid); background: rgba(5, 150, 105, 0.05); }
 
-  .craft-row { display: flex; gap: 12px; }
+  .craft-row { display: flex; gap: 10px; }
   @media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
   
   .pill {
     flex: 1; 
-    padding: 14px 10px; 
+    padding: 12px 10px; 
     text-align: center; 
     border: 1px solid var(--card-border); 
-    border-radius: 12px;
+    border-radius: 10px;
     background: var(--input-bg); 
     cursor: pointer; 
     font-size: 14px; 
     font-weight: 500;
     color: var(--text-secondary);
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
   }
-  .pill:hover { background: #1E293B; color: #FFFFFF; }
+  .pill:hover { background: #E2E8F0; color: var(--text-primary); }
   .pill.active { border-color: var(--accent-electric); color: #FFFFFF; background: var(--accent-electric); }
 
-  .generate-bar { padding: 24px; }
+  .generate-bar { padding: 16px 20px 24px; }
   
   button.generate {
     width: 100%; 
-    padding: 16px; 
+    padding: 15px; 
     background: var(--accent-electric); 
     color: #FFFFFF;
     border: none; 
-    border-radius: 14px; 
+    border-radius: 12px; 
     font-weight: 600;
     font-size: 15px; 
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s ease;
     box-shadow: 0 4px 12px var(--accent-glow);
   }
   button.generate:hover { 
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px var(--accent-glow);
-    filter: brightness(1.1);
+    box-shadow: 0 6px 16px var(--accent-glow);
+    filter: brightness(1.05);
   }
-  button.generate:active { transform: translateY(0); }
   
-  .error { color: var(--status-unpaid); font-size: 13px; margin-top: 14px; text-align: center; display: none; }
+  .error { color: var(--status-unpaid); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
   .error.show { display: block; }
 
   .ticket {
-    margin-top: 32px; 
-    background: #111827; 
-    border: 1px solid var(--card-border);
-    border-radius: 20px; 
-    padding: 32px; 
+    margin-top: 24px; 
+    background: #0F172A; 
+    border-radius: 16px; 
+    padding: 24px; 
     display: none; 
     white-space: pre-wrap;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px; 
     line-height: 1.6; 
     position: relative;
-    color: #E5E7EB;
+    color: #F8FAFC;
   }
   .ticket.show { display: block; }
   
   .ticket .tlabel {
     font-family: 'Inter', sans-serif;
-    font-size: 12px; 
+    font-size: 11px; 
     letter-spacing: 0.1em; 
     text-transform: uppercase; 
     color: var(--accent-electric);
-    margin-bottom: 20px; 
+    margin-bottom: 16px; 
     font-weight: 700;
   }
   
   button.copy {
-    margin-top: 24px; 
-    background: #1F2937; 
+    margin-top: 20px; 
+    background: #1E293B; 
     border: 1px solid transparent; 
-    border-radius: 10px; 
+    border-radius: 8px; 
     color: #FFFFFF;
-    padding: 12px 20px; 
+    padding: 10px 16px; 
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 600; 
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
   }
-  button.copy:hover { background: #374151; }
+  button.copy:hover { background: #334155; }
   button.copy.copied { background: var(--status-paid); color: #FFFFFF; }
 
   footer {
     text-align: center; 
-    padding: 48px 20px 0; 
-    color: #4B5563; 
+    padding: 40px 16px 0; 
+    color: #64748B; 
     font-size: 12px;
     line-height: 1.6;
   }
-  footer a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s ease;}
+  footer a { color: var(--text-secondary); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
   footer a:hover { color: var(--accent-electric); }
 </style>
 </head>
@@ -372,7 +372,7 @@
           <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
         </div>
         <div class="field" id="fairPayField" style="display:none;">
-          <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer;">
+          <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer; color:var(--text-secondary);">
             <input type="checkbox" id="fairPayNote" checked style="width:auto; margin:0;">
             Add a short note encouraging fair pay
           </label>
