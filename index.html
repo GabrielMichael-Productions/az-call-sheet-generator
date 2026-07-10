@@ -327,7 +327,7 @@
         </div>
         <div class="field">
           <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
-          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Equipment details)" required></textarea>
+          <textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>
         </div>
       </fieldset>
 
@@ -472,28 +472,27 @@ document.getElementById('callForm').addEventListener('submit', function(e){
   const val = id => document.getElementById(id).value.trim();
 
   const payLine = payStatus === 'paid'
-    ? `💰 PAID — ${val('rate')}`
-    : `🚫 UNPAID — Other compensation: ${val('otherComp')}`;
+    ? `💰 Rate: PAID — ${val('rate')}`
+    : `🚫 Rate: UNPAID — Other compensation: ${val('otherComp')}`;
 
   const lines = [
     `🎬 ${val('postType').toUpperCase()}: ${val('projectTitle')}`,
-    ``,
-    `Role/Position:\n${val('roleNeeded')}`,
-    ``,
-    `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
-    `Date(s): ${val('shootDate')}`,
-    `Call time: ${val('callTime')}`,
-    `Est. length of day: ${val('duration')}`,
+    `━`.repeat(25),
+    `[ ROLES / POSITIONS ]`,
+    val('roleNeeded'),
+    `━`.repeat(25),
+    `📍 Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+    `📅 Date(s): ${val('shootDate')}`,
+    `⏰ Call Time: ${val('callTime')}`,
+    `⏳ Day Length: ${val('duration')}`,
     payLine,
-    `Craft services: ${craftStatus}`,
-    `How to apply: ${val('contact')}`,
+    `🍿 Craft Services: ${craftStatus}`,
+    `📬 How to Apply: ${val('contact')}`,
   ];
 
   if(val('extra')){
-    lines.push(``, `Details: ${val('extra')}`);
+    lines.push(``, `📝 Additional Details:\n${val('extra')}`);
   }
-
-  // Extraneous scripted note injection completely scrubbed out
 
   lines.push(``, `— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
 
