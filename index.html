@@ -4,176 +4,287 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Call Sheet Generator — Filmmaker's Digital Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper: #EDE8DC;
-    --paper-dark: #E2DCCC;
-    --ink: #2B2A25;
-    --ink-soft: #55534A;
-    --slate: #33403C;
-    --slate-dark: #232C29;
-    --rust: #A1462F;
-    --rust-dark: #7E3523;
-    --gold: #B9942A;
-    --sage: #6E7C68;
-    --line: #C9C1AC;
+  :root {
+    --bg-main: #0B0F17;
+    --card-bg: rgba(22, 30, 46, 0.6);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --input-bg: #161E2E;
+    --text-primary: #F3F4F6;
+    --text-secondary: #9CA3AF;
+    --accent-electric: #3B82F6;
+    --accent-glow: rgba(59, 130, 246, 0.25);
+    --status-paid: #10B981;
+    --status-unpaid: #EF4444;
   }
-  *{box-sizing:border-box;}
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
-  }
-  body{
-    margin:0;
-    background: var(--slate-dark);
-    color:var(--ink);
-    font-family: 'IBM Plex Mono', 'Courier New', monospace;
-  }
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap');
-  .body-font{ font-family:'Public Sans', -apple-system, sans-serif; }
 
-  .wrap{ max-width: 760px; margin:0 auto; padding: 0 0 64px; }
-
-  header.hero{
-    background: linear-gradient(180deg, var(--slate-dark) 0%, var(--slate) 100%);
-    color: var(--paper);
-    padding: 40px 24px 32px;
-    border-bottom: 3px solid var(--gold);
+  * { box-sizing: border-box; }
+  
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
-  .eyebrow{
-    font-size: 12px;
-    letter-spacing: 0.18em;
+
+  body {
+    margin: 0;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 60px 20px;
+  }
+
+  .wrap { max-width: 680px; margin: 0 auto; }
+
+  header.hero {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--gold);
-    font-weight:600;
-    margin-bottom:10px;
+    color: var(--accent-electric);
+    font-weight: 600;
+    margin-bottom: 14px;
   }
-  h1{
-    font-family:'IBM Plex Mono', monospace;
-    font-size: clamp(28px, 5vw, 40px);
+
+  h1 {
+    font-size: clamp(32px, 6vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 16px;
+    color: #FFFFFF;
+  }
+
+  header.hero p {
+    color: var(--text-secondary);
+    max-width: 52ch;
+    line-height: 1.6;
+    font-size: 15px;
+    margin: 0 auto;
+    font-weight: 400;
+  }
+
+  .sheet {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    padding: 12px;
+  }
+
+  .slug {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 20px 24px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    color: var(--text-secondary);
+    opacity: 0.8;
+  }
+
+  fieldset { 
+    border: none; 
+    padding: 32px 24px; 
+    margin: 0; 
+    border-bottom: 1px solid var(--card-border); 
+  }
+  fieldset:last-of-type { border-bottom: none; }
+  
+  legend {
+    font-size: 16px; 
     letter-spacing: -0.01em;
-    margin: 0 0 12px;
-    line-height:1.1;
-  }
-  header.hero p{
-    font-family:'Public Sans', sans-serif;
-    color: #CBD1C9;
-    max-width: 56ch;
-    line-height:1.5;
-    font-size:15px;
-    margin:0;
+    color: #FFFFFF; 
+    font-weight: 600; 
+    padding: 0; 
+    margin-bottom: 24px;
   }
 
-  main{ padding: 0 20px; }
+  .field { margin-bottom: 24px; }
+  .field:last-child { margin-bottom: 0; }
+  
+  label {
+    display: block; 
+    font-size: 13px; 
+    color: var(--text-secondary); 
+    margin-bottom: 9px; 
+    font-weight: 500;
+  }
+  label .req { color: var(--status-unpaid); margin-left: 2px; }
 
-  .sheet{
-    background: var(--paper);
-    border: 1px solid var(--line);
-    margin-top: -18px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-    position:relative;
+  input[type=text], select, textarea {
+    width: 100%; 
+    font-family: inherit;
+    font-size: 15px; 
+    color: #FFFFFF;
+    background: var(--input-bg); 
+    border: 1px solid transparent; 
+    border-radius: 12px;
+    padding: 14px 16px; 
+    outline: none; 
+    transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .sheet::before{
-    content:"";
-    position:absolute; top:0; left:0; right:0; height:6px;
-    background: repeating-linear-gradient(90deg, var(--rust) 0 14px, transparent 14px 28px);
-    opacity:0.55;
+  input::placeholder, textarea::placeholder { color: #4B5563; }
+  
+  input:focus, select:focus, textarea:focus { 
+    border-color: var(--accent-electric); 
+    box-shadow: 0 0 0 4px var(--accent-glow);
+    background: #1E293B;
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px;
   }
 
-  .slug{
-    display:flex; justify-content:space-between; align-items:baseline;
-    padding: 22px 28px 14px;
-    border-bottom: 1px solid var(--line);
-    font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft);
-  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 24px; } }
 
-  fieldset{ border:none; padding: 22px 28px; margin:0; border-bottom: 1px dashed var(--line); }
-  fieldset:last-of-type{ border-bottom:none; }
-  legend{
-    font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
-    color: var(--slate); font-weight:700; padding:0; margin-bottom:14px;
+  .stamp-toggle { display: flex; gap: 12px; }
+  
+  .stamp-btn {
+    flex: 1; 
+    padding: 14px; 
+    text-align: center;
+    border: 1px solid var(--card-border); 
+    border-radius: 12px; 
+    background: var(--input-bg); 
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 14px; 
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
+  .stamp-btn:hover { background: #1E293B; color: #FFFFFF; }
+  .stamp-btn.active[data-val="paid"] { background: rgba(16, 185, 129, 0.15); border-color: var(--status-paid); color: var(--status-paid); }
+  .stamp-btn.active[data-val="unpaid"] { background: rgba(239, 68, 68, 0.15); border-color: var(--status-unpaid); color: var(--status-unpaid); }
 
-  .field{ margin-bottom:18px; }
-  .field:last-child{ margin-bottom:0; }
-  label{
-    display:block; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
-    color: var(--ink-soft); margin-bottom:6px; font-weight:600;
+  .stamp-preview { margin-top: 16px; display: none; align-items: center; justify-content: flex-start; }
+  .stamp-preview.show { display: flex; }
+  .stamp-mark {
+    display: inline-block; 
+    border: 1px solid var(--status-unpaid); 
+    border-radius: 6px; 
+    color: var(--status-unpaid);
+    font-family: 'IBM Plex Mono', monospace; 
+    font-weight: 700; 
+    letter-spacing: 0.1em;
+    font-size: 11px; 
+    padding: 4px 10px;
+    background: rgba(239, 68, 68, 0.05);
   }
-  label .req{ color: var(--rust); margin-left:4px; }
+  .stamp-mark.paid { border-color: var(--status-paid); color: var(--status-paid); background: rgba(16, 185, 129, 0.05); }
 
-  input[type=text], input[type=date], input[type=time], select, textarea{
-    width:100%; font-family:'Public Sans', sans-serif; font-size:15px; color:var(--ink);
-    background: transparent; border:none; border-bottom: 2px solid var(--line);
-    padding: 8px 2px; outline:none; transition: border-color .15s ease;
+  .craft-row { display: flex; gap: 12px; }
+  @media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
+  
+  .pill {
+    flex: 1; 
+    padding: 14px 10px; 
+    text-align: center; 
+    border: 1px solid var(--card-border); 
+    border-radius: 12px;
+    background: var(--input-bg); 
+    cursor: pointer; 
+    font-size: 14px; 
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
   }
-  input:focus, select:focus, textarea:focus{ border-bottom-color: var(--rust); }
-  textarea{ resize:vertical; min-height:64px; }
+  .pill:hover { background: #1E293B; color: #FFFFFF; }
+  .pill.active { border-color: var(--accent-electric); color: #FFFFFF; background: var(--accent-electric); }
 
-  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-  @media (max-width:520px){ .grid2{ grid-template-columns:1fr; } }
+  .generate-bar { padding: 24px; }
+  
+  button.generate {
+    width: 100%; 
+    padding: 16px; 
+    background: var(--accent-electric); 
+    color: #FFFFFF;
+    border: none; 
+    border-radius: 14px; 
+    font-weight: 600;
+    font-size: 15px; 
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px var(--accent-glow);
+  }
+  button.generate:hover { 
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px var(--accent-glow);
+    filter: brightness(1.1);
+  }
+  button.generate:active { transform: translateY(0); }
+  
+  .error { color: var(--status-unpaid); font-size: 13px; margin-top: 14px; text-align: center; display: none; }
+  .error.show { display: block; }
 
-  .stamp-toggle{ display:flex; gap:12px; flex-wrap:wrap; }
-  .stamp-btn{
-    flex:1; min-width:130px; padding:14px 10px; text-align:center;
-    border:2px solid var(--slate); background:transparent; color:var(--slate);
-    font-family:'IBM Plex Mono', monospace; font-weight:700; letter-spacing:0.08em;
-    font-size:13px; cursor:pointer; text-transform:uppercase;
+  .ticket {
+    margin-top: 32px; 
+    background: #111827; 
+    border: 1px solid var(--card-border);
+    border-radius: 20px; 
+    padding: 32px; 
+    display: none; 
+    white-space: pre-wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px; 
+    line-height: 1.6; 
+    position: relative;
+    color: #E5E7EB;
   }
-  .stamp-btn.active[data-val="paid"]{ background:var(--sage); border-color:var(--sage); color:var(--paper); }
-  .stamp-btn.active[data-val="unpaid"]{ background:var(--rust); border-color:var(--rust); color:var(--paper); }
+  .ticket.show { display: block; }
+  
+  .ticket .tlabel {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; 
+    letter-spacing: 0.1em; 
+    text-transform: uppercase; 
+    color: var(--accent-electric);
+    margin-bottom: 20px; 
+    font-weight: 700;
+  }
+  
+  button.copy {
+    margin-top: 24px; 
+    background: #1F2937; 
+    border: 1px solid transparent; 
+    border-radius: 10px; 
+    color: #FFFFFF;
+    padding: 12px 20px; 
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600; 
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  button.copy:hover { background: #374151; }
+  button.copy.copied { background: var(--status-paid); color: #FFFFFF; }
 
-  .stamp-preview{ margin-top:14px; display:none; align-items:center; justify-content:center; }
-  .stamp-preview.show{ display:flex; }
-  .stamp-mark{
-    display:inline-block; border:3px solid var(--rust); color:var(--rust);
-    font-family:'IBM Plex Mono', monospace; font-weight:700; letter-spacing:0.12em;
-    font-size:14px; padding:6px 16px; transform: rotate(-6deg);
-    opacity:0.85;
+  footer {
+    text-align: center; 
+    padding: 48px 20px 0; 
+    color: #4B5563; 
+    font-size: 12px;
+    line-height: 1.6;
   }
-  .stamp-mark.paid{ border-color:var(--sage); color:var(--sage); }
-
-  .craft-row{ display:flex; gap:12px; }
-  .pill{
-    flex:1; padding:10px; text-align:center; border:2px solid var(--line);
-    background:transparent; cursor:pointer; font-size:13px; font-weight:600;
-    text-transform:uppercase; letter-spacing:0.05em; color: var(--ink-soft);
-    font-family:'IBM Plex Mono', monospace;
-  }
-  .pill.active{ border-color: var(--slate); color: var(--slate); background:#DCD8C8; }
-
-  .generate-bar{ padding: 22px 28px 28px; }
-  button.generate{
-    width:100%; padding:16px; background: var(--rust); color: var(--paper);
-    border:none; font-family:'IBM Plex Mono', monospace; font-weight:700;
-    letter-spacing:0.12em; text-transform:uppercase; font-size:14px; cursor:pointer;
-  }
-  button.generate:hover{ background: var(--rust-dark); }
-  .error{ color: var(--rust-dark); font-size:13px; margin-top:10px; font-family:'Public Sans',sans-serif; display:none; }
-  .error.show{ display:block; }
-
-  .ticket{
-    margin: 20px 20px 0; background: var(--slate-dark); color: var(--paper);
-    border: 1px solid var(--gold); padding:22px; display:none; white-space:pre-wrap;
-    font-size:14px; line-height:1.6; position:relative;
-  }
-  .ticket.show{ display:block; }
-  .ticket .tlabel{
-    font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold);
-    margin-bottom:12px; font-weight:700;
-  }
-  button.copy{
-    margin-top:16px; background:transparent; border:1px solid var(--gold); color:var(--gold);
-    padding:10px 18px; font-family:'IBM Plex Mono', monospace; font-size:12px;
-    letter-spacing:0.08em; text-transform:uppercase; cursor:pointer;
-  }
-  button.copy:hover{ background: var(--gold); color: var(--slate-dark); }
-  button.copy.copied{ background: var(--sage); border-color:var(--sage); color:var(--paper); }
-
-  footer{
-    text-align:center; padding: 28px 20px 0; color:#8B9089; font-size:12px;
-    font-family:'Public Sans', sans-serif; line-height:1.6;
-  }
-  footer a{ color: var(--gold); }
+  footer a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s ease;}
+  footer a:hover { color: var(--accent-electric); }
 </style>
 </head>
 <body>
@@ -182,7 +293,7 @@
   <div class="wrap">
     <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
     <h1>Call Sheet Generator</h1>
-    <p class="body-font">Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
+    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
   </div>
 </header>
 
@@ -199,7 +310,7 @@
             <option value="">Choose one</option>
             <option value="Cast Call">Cast Call</option>
             <option value="Crew Call">Crew Call</option>
-            <option value="Casting Notice">Casting Notice</option>
+            <option value="Cast/Crew Call">Cast/Crew Call</option>
             <option value="Location Needed">Location Needed</option>
             <option value="Gig / Freelance Work">Gig / Freelance Work</option>
           </select>
@@ -262,7 +373,7 @@
         </div>
         <div class="field" id="fairPayField" style="display:none;">
           <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer;">
-            <input type="checkbox" id="fairPayNote" checked style="width:auto;">
+            <input type="checkbox" id="fairPayNote" checked style="width:auto; margin:0;">
             Add a short note encouraging fair pay
           </label>
         </div>
@@ -303,8 +414,8 @@
 </main>
 
 <footer>
-  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
-  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
+  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.[cite: 1]<br>
+  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>[cite: 1]
 </footer>
 
 <script>
