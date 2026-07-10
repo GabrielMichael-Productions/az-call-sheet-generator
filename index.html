@@ -147,8 +147,8 @@
 
   textarea {
     resize: vertical;
-    min-height: 120px;
-    field-sizing: content; /* Automatically grows perfectly to match unlimited rows of text */
+    min-height: 140px;
+    field-sizing: content; 
     line-height: 1.6;
   }
   
@@ -297,21 +297,21 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>[cite: 1]
-    <h1>Call Sheet Generator</h1>[cite: 1]
-    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>[cite: 1]
+    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
+    <h1>Call Sheet Generator</h1>
+    <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
   </div>
 </header>
 
 <main class="wrap">
   <div class="sheet">
-    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>[cite: 1]
+    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>
 
     <form id="callForm">
       <fieldset>
-        <legend>What's this for</legend>[cite: 1]
+        <legend>What's this for</legend>
         <div class="field">
-          <label for="postType">Post type <span class="req">*</span></label>[cite: 1]
+          <label for="postType">Post type <span class="req">*</span></label>
           <select id="postType" required>
             <option value="">Choose one</option>
             <option value="Cast Call">Cast Call</option>
@@ -322,106 +322,106 @@
           </select>
         </div>
         <div class="field">
-          <label for="projectTitle">Project title <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>[cite: 1]
+          <label for="projectTitle">Project title <span class="req">*</span></label>
+          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>
         </div>
         <div class="field">
-          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>[cite: 1]
+          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
           <textarea id="roleNeeded" placeholder="Cast:&#10;&#10;&#10;Crew:" required></textarea>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Where and when</legend>[cite: 1]
+        <legend>Where and when</legend>
         <div class="grid2">
           <div class="field">
-            <label for="city">City <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="city" placeholder="e.g. Tucson" required>[cite: 1]
+            <label for="city">City <span class="req">*</span></label>
+            <input type="text" id="city" placeholder="e.g. Tucson" required>
           </div>
           <div class="field">
-            <label for="locationDetail">Neighborhood / venue (optional)</label>[cite: 1]
-            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">[cite: 1]
+            <label for="locationDetail">Neighborhood / venue (optional)</label>
+            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">
           </div>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="shootDate">Date(s) <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>[cite: 1]
+            <label for="shootDate">Date(s) <span class="req">*</span></label>
+            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>
           </div>
           <div class="field">
-            <label for="callTime">Call time <span class="req">*</span></label>[cite: 1]
-            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>[cite: 1]
+            <label for="callTime">Call time <span class="req">*</span></label>
+            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>
           </div>
         </div>
         <div class="field">
-          <label for="duration">Estimated length of day <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>[cite: 1]
+          <label for="duration">Estimated length of day <span class="req">*</span></label>
+          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Pay and craft services</legend>[cite: 1]
+        <legend>Pay and craft services</legend>
         <div class="field">
-          <label>Paid or unpaid <span class="req">*</span></label>[cite: 1]
+          <label>Paid or unpaid <span class="req">*</span></label>
           <div class="stamp-toggle">
-            <button type="button" class="stamp-btn" data-val="paid">Paid</button>[cite: 1]
-            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>[cite: 1]
+            <button type="button" class="stamp-btn" data-val="paid">Paid</button>
+            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>
           </div>
-          <div class="stamp-preview" id="stampPreview"></div>[cite: 1]
+          <div class="stamp-preview" id="stampPreview"></div>
         </div>
         <div class="field" id="rateField" style="display:none;">
-          <label for="rate">Rate <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">[cite: 1]
+          <label for="rate">Rate <span class="req">*</span></label>
+          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
         </div>
         <div class="field" id="otherCompField" style="display:none;">
-          <label for="otherComp">Other compensation <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">[cite: 1]
+          <label for="otherComp">Other compensation <span class="req">*</span></label>
+          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
         </div>
         <div class="field" id="fairPayField" style="display:none;">
           <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer; color:var(--text-secondary);">
-            <input type="checkbox" id="fairPayNote" checked style="width:auto; margin:0;">[cite: 1]
+            <input type="checkbox" id="fairPayNote" checked style="width:auto; margin:0;">
             Add a short note encouraging fair pay
           </label>
         </div>
         <div class="field">
-          <label>Craft services available? <span class="req">*</span></label>[cite: 1]
+          <label>Craft services available? <span class="req">*</span></label>
           <div class="craft-row">
-            <div class="pill" data-craft="Yes">Yes</div>[cite: 1]
-            <div class="pill" data-craft="No">No</div>[cite: 1]
-            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>[cite: 1]
+            <div class="pill" data-craft="Yes">Yes</div>
+            <div class="pill" data-craft="No">No</div>
+            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>
           </div>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>How to apply</legend>[cite: 1]
+        <legend>How to apply</legend>
         <div class="field">
-          <label for="contact">Contact method <span class="req">*</span></label>[cite: 1]
-          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>[cite: 1]
+          <label for="contact">Contact method <span class="req">*</span></label>
+          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>
         </div>
         <div class="field">
-          <label for="extra">Additional details (optional)</label>[cite: 1]
-          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>[cite: 1]
+          <label for="extra">Additional details (optional)</label>
+          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>
         </div>
       </fieldset>
 
       <div class="generate-bar">
-        <button type="submit" class="generate">Stamp &amp; Generate Post</button>[cite: 1]
-        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>[cite: 1]
+        <button type="submit" class="generate">Stamp &amp; Generate Post</button>
+        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>
       </div>
     </form>
   </div>
 
   <div class="ticket" id="ticket">
-    <div class="tlabel">Ready to post</div>[cite: 1]
-    <div id="ticketText"></div>[cite: 1]
-    <button class="copy" id="copyBtn">Copy post text</button>[cite: 1]
+    <div class="tlabel">Ready to post</div>
+    <div id="ticketText"></div>
+    <button class="copy" id="copyBtn">Copy post text</button>
   </div>
 </main>
 
 <footer>
-  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.[cite: 1]<br>
-  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>[cite: 1]
+  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
+  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
 </footer>
 
 <script>
