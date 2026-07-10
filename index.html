@@ -9,17 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-main: #F8FAFC;      /* Crisp, bright gallery background */
-    --card-bg: #FFFFFF;      /* Clean white card surface */
-    --card-border: #E2E8F0;  /* Subtle structural dividing lines */
-    --input-bg: #F1F5F9;     /* Soft grey fields to anchor the text */
-    --text-primary: #0F172A;  /* Deep dark slate for 100% readability */
-    --text-secondary: #475569;/* High-contrast slate for labels */
+    --bg-main: #F8FAFC;      
+    --card-bg: #FFFFFF;      
+    --card-border: #E2E8F0;  
+    --input-bg: #F1F5F9;     
+    --text-primary: #0F172A;  
+    --text-secondary: #475569;
     --text-placeholder: #94A3B8;
-    --accent-electric: #2563EB;/* Premium bright blue brand accent */
+    --accent-electric: #2563EB;
     --accent-glow: rgba(37, 99, 235, 0.15);
-    --status-paid: #059669;   /* Vivid emerald */
-    --status-unpaid: #DC2626; /* Vivid crimson */
+    --status-paid: #059669;   
+    --status-unpaid: #DC2626; 
   }
 
   * { box-sizing: border-box; }
@@ -103,7 +103,6 @@
   fieldset:last-of-type { border-bottom: none; }
   
   legend {
-    font-size: 15px; 
     color: var(--text-primary); 
     font-weight: 700; 
     padding: 0; 
@@ -144,6 +143,12 @@
     border-color: var(--accent-electric); 
     box-shadow: 0 0 0 4px var(--accent-glow);
     background: #FFFFFF;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
   }
   
   select {
@@ -321,7 +326,7 @@
         </div>
         <div class="field">
           <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
-          <input type="text" id="roleNeeded" placeholder="e.g. Gaffer, or Lead Actress (20s)" required>
+          <textarea id="roleNeeded" placeholder="Cast:&#10;Character - Ben - 40's mountain biker&#10;&#10;Crew:&#10;DP with camera, lighting and slate" required></textarea>
         </div>
       </fieldset>
 
@@ -481,7 +486,8 @@ document.getElementById('callForm').addEventListener('submit', function(e){
   const lines = [
     `🎬 ${val('postType').toUpperCase()}: ${val('projectTitle')}`,
     ``,
-    `Role/Position: ${val('roleNeeded')}`,
+    `Role/Position:\n${val('roleNeeded')}`,
+    ``,
     `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
     `Date(s): ${val('shootDate')}`,
     `Call time: ${val('callTime')}`,
