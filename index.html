@@ -332,7 +332,11 @@
         </div>
         <div class="field">
           <label for="projectTitle">Project title <span class="req">*</span></label>
-          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>
+          <input type="text" id="projectTitle" placeholder="e.g. Desert Static" required>
+        </div>
+        <div class="field">
+          <label for="projectType">Project type <span class="req">*</span></label>
+          <input type="text" id="projectType" placeholder="e.g. Short, commercial, feature, series, other." required>
         </div>
         <div class="field">
           <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
@@ -490,7 +494,7 @@ document.getElementById('callForm').addEventListener('submit', function(e){
     : `Compensation: Unpaid (Other compensation: ${val('otherComp')})`;
 
   const lines = [
-    `${val('postType').toUpperCase()}: ${val('projectTitle')}`,
+    `${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
     `\n[ PRODUCTION DETAILS ]`,
     `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
     `Date(s): ${val('shootDate')}`,
