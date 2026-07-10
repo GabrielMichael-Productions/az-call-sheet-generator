@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Sheet Generator — Filmmaker's Digital Cafe</title>
+<style>
+  :root{
+    --paper: #EDE8DC;
+    --paper-dark: #E2DCCC;
+    --ink: #2B2A25;
+    --ink-soft: #55534A;
+    --slate: #33403C;
+    --slate-dark: #232C29;
+    --rust: #A1462F;
+    --rust-dark: #7E3523;
+    --gold: #B9942A;
+    --sage: #6E7C68;
+    --line: #C9C1AC;
+  }
+  *{box-sizing:border-box;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background: var(--slate-dark);
+    color:var(--ink);
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap');
+  .body-font{ font-family:'Public Sans', -apple-system, sans-serif; }
+
+  .wrap{ max-width: 760px; margin:0 auto; padding: 0 0 64px; }
+
+  header.hero{
+    background: linear-gradient(180deg, var(--slate-dark) 0%, var(--slate) 100%);
+    color: var(--paper);
+    padding: 40px 24px 32px;
+    border-bottom: 3px solid var(--gold);
+  }
+  .eyebrow{
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: clamp(28px, 5vw, 40px);
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    line-height:1.1;
+  }
+  header.hero p{
+    font-family:'Public Sans', sans-serif;
+    color: #CBD1C9;
+    max-width: 56ch;
+    line-height:1.5;
+    font-size:15px;
+    margin:0;
+  }
+
+  main{ padding: 0 20px; }
+
+  .sheet{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-top: -18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    position:relative;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background: repeating-linear-gradient(90deg, var(--rust) 0 14px, transparent 14px 28px);
+    opacity:0.55;
+  }
+
+  .slug{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding: 22px 28px 14px;
+    border-bottom: 1px solid var(--line);
+    font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft);
+  }
+
+  fieldset{ border:none; padding: 22px 28px; margin:0; border-bottom: 1px dashed var(--line); }
+  fieldset:last-of-type{ border-bottom:none; }
+  legend{
+    font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color: var(--slate); font-weight:700; padding:0; margin-bottom:14px;
+  }
+
+  .field{ margin-bottom:18px; }
+  .field:last-child{ margin-bottom:0; }
+  label{
+    display:block; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color: var(--ink-soft); margin-bottom:6px; font-weight:600;
+  }
+  label .req{ color: var(--rust); margin-left:4px; }
+
+  input[type=text], input[type=date], input[type=time], select, textarea{
+    width:100%; font-family:'Public Sans', sans-serif; font-size:15px; color:var(--ink);
+    background: transparent; border:none; border-bottom: 2px solid var(--line);
+    padding: 8px 2px; outline:none; transition: border-color .15s ease;
+  }
+  input:focus, select:focus, textarea:focus{ border-bottom-color: var(--rust); }
+  textarea{ resize:vertical; min-height:64px; }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:520px){ .grid2{ grid-template-columns:1fr; } }
+
+  .stamp-toggle{ display:flex; gap:12px; flex-wrap:wrap; }
+  .stamp-btn{
+    flex:1; min-width:130px; padding:14px 10px; text-align:center;
+    border:2px solid var(--slate); background:transparent; color:var(--slate);
+    font-family:'IBM Plex Mono', monospace; font-weight:700; letter-spacing:0.08em;
+    font-size:13px; cursor:pointer; text-transform:uppercase;
+  }
+  .stamp-btn.active[data-val="paid"]{ background:var(--sage); border-color:var(--sage); color:var(--paper); }
+  .stamp-btn.active[data-val="unpaid"]{ background:var(--rust); border-color:var(--rust); color:var(--paper); }
+
+  .stamp-preview{ margin-top:14px; display:none; align-items:center; justify-content:center; }
+  .stamp-preview.show{ display:flex; }
+  .stamp-mark{
+    display:inline-block; border:3px solid var(--rust); color:var(--rust);
+    font-family:'IBM Plex Mono', monospace; font-weight:700; letter-spacing:0.12em;
+    font-size:14px; padding:6px 16px; transform: rotate(-6deg);
+    opacity:0.85;
+  }
+  .stamp-mark.paid{ border-color:var(--sage); color:var(--sage); }
+
+  .craft-row{ display:flex; gap:12px; }
+  .pill{
+    flex:1; padding:10px; text-align:center; border:2px solid var(--line);
+    background:transparent; cursor:pointer; font-size:13px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.05em; color: var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .pill.active{ border-color: var(--slate); color: var(--slate); background:#DCD8C8; }
+
+  .generate-bar{ padding: 22px 28px 28px; }
+  button.generate{
+    width:100%; padding:16px; background: var(--rust); color: var(--paper);
+    border:none; font-family:'IBM Plex Mono', monospace; font-weight:700;
+    letter-spacing:0.12em; text-transform:uppercase; font-size:14px; cursor:pointer;
+  }
+  button.generate:hover{ background: var(--rust-dark); }
+  .error{ color: var(--rust-dark); font-size:13px; margin-top:10px; font-family:'Public Sans',sans-serif; display:none; }
+  .error.show{ display:block; }
+
+  .ticket{
+    margin: 20px 20px 0; background: var(--slate-dark); color: var(--paper);
+    border: 1px solid var(--gold); padding:22px; display:none; white-space:pre-wrap;
+    font-size:14px; line-height:1.6; position:relative;
+  }
+  .ticket.show{ display:block; }
+  .ticket .tlabel{
+    font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold);
+    margin-bottom:12px; font-weight:700;
+  }
+  button.copy{
+    margin-top:16px; background:transparent; border:1px solid var(--gold); color:var(--gold);
+    padding:10px 18px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:0.08em; text-transform:uppercase; cursor:pointer;
+  }
+  button.copy:hover{ background: var(--gold); color: var(--slate-dark); }
+  button.copy.copied{ background: var(--sage); border-color:var(--sage); color:var(--paper); }
+
+  footer{
+    text-align:center; padding: 28px 20px 0; color:#8B9089; font-size:12px;
+    font-family:'Public Sans', sans-serif; line-height:1.6;
+  }
+  footer a{ color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
+    <h1>Call Sheet Generator</h1>
+    <p class="body-font">Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="sheet">
+    <div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>
+
+    <form id="callForm">
+      <fieldset>
+        <legend>What's this for</legend>
+        <div class="field">
+          <label for="postType">Post type <span class="req">*</span></label>
+          <select id="postType" required>
+            <option value="">Choose one</option>
+            <option value="Cast Call">Cast Call</option>
+            <option value="Crew Call">Crew Call</option>
+            <option value="Casting Notice">Casting Notice</option>
+            <option value="Location Needed">Location Needed</option>
+            <option value="Gig / Freelance Work">Gig / Freelance Work</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="projectTitle">Project title <span class="req">*</span></label>
+          <input type="text" id="projectTitle" placeholder="e.g. Desert Static (short film)" required>
+        </div>
+        <div class="field">
+          <label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
+          <input type="text" id="roleNeeded" placeholder="e.g. Gaffer, or Lead Actress (20s)" required>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Where and when</legend>
+        <div class="grid2">
+          <div class="field">
+            <label for="city">City <span class="req">*</span></label>
+            <input type="text" id="city" placeholder="e.g. Tucson" required>
+          </div>
+          <div class="field">
+            <label for="locationDetail">Neighborhood / venue (optional)</label>
+            <input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="shootDate">Date(s) <span class="req">*</span></label>
+            <input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>
+          </div>
+          <div class="field">
+            <label for="callTime">Call time <span class="req">*</span></label>
+            <input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="duration">Estimated length of day <span class="req">*</span></label>
+          <input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pay and craft services</legend>
+        <div class="field">
+          <label>Paid or unpaid <span class="req">*</span></label>
+          <div class="stamp-toggle">
+            <button type="button" class="stamp-btn" data-val="paid">Paid</button>
+            <button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>
+          </div>
+          <div class="stamp-preview" id="stampPreview"></div>
+        </div>
+        <div class="field" id="rateField" style="display:none;">
+          <label for="rate">Rate <span class="req">*</span></label>
+          <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
+        </div>
+        <div class="field" id="otherCompField" style="display:none;">
+          <label for="otherComp">Other compensation <span class="req">*</span></label>
+          <input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
+        </div>
+        <div class="field" id="fairPayField" style="display:none;">
+          <label style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:normal; font-weight:500; font-size:13px; cursor:pointer;">
+            <input type="checkbox" id="fairPayNote" checked style="width:auto;">
+            Add a short note encouraging fair pay
+          </label>
+        </div>
+        <div class="field">
+          <label>Craft services available? <span class="req">*</span></label>
+          <div class="craft-row">
+            <div class="pill" data-craft="Yes">Yes</div>
+            <div class="pill" data-craft="No">No</div>
+            <div class="pill" data-craft="Snacks/water only">Snacks/water only</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>How to apply</legend>
+        <div class="field">
+          <label for="contact">Contact method <span class="req">*</span></label>
+          <input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>
+        </div>
+        <div class="field">
+          <label for="extra">Additional details (optional)</label>
+          <textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>
+        </div>
+      </fieldset>
+
+      <div class="generate-bar">
+        <button type="submit" class="generate">Stamp &amp; Generate Post</button>
+        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>
+      </div>
+    </form>
+  </div>
+
+  <div class="ticket" id="ticket">
+    <div class="tlabel">Ready to post</div>
+    <div id="ticketText"></div>
+    <button class="copy" id="copyBtn">Copy post text</button>
+  </div>
+</main>
+
+<footer>
+  Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
+  <a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
+</footer>
+
+<script>
+document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+
+let payStatus = null;
+let craftStatus = null;
+
+document.querySelectorAll('.stamp-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.stamp-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    payStatus = btn.dataset.val;
+    const rateField = document.getElementById('rateField');
+    const otherCompField = document.getElementById('otherCompField');
+    const fairPayField = document.getElementById('fairPayField');
+    const preview = document.getElementById('stampPreview');
+    if(payStatus === 'paid'){
+      rateField.style.display = 'block';
+      document.getElementById('rate').required = true;
+      otherCompField.style.display = 'none';
+      document.getElementById('otherComp').required = false;
+      fairPayField.style.display = 'none';
+      preview.innerHTML = '<span class="stamp-mark paid">PAID</span>';
+    } else {
+      rateField.style.display = 'none';
+      document.getElementById('rate').required = false;
+      otherCompField.style.display = 'block';
+      document.getElementById('otherComp').required = true;
+      fairPayField.style.display = 'block';
+      preview.innerHTML = '<span class="stamp-mark">UNPAID</span>';
+    }
+    preview.classList.add('show');
+  });
+});
+
+document.querySelectorAll('.pill').forEach(p=>{
+  p.addEventListener('click', ()=>{
+    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    craftStatus = p.dataset.craft;
+  });
+});
+
+document.getElementById('callForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const errorEl = document.getElementById('formError');
+
+  if(!form.checkValidity() || !payStatus || !craftStatus){
+    form.reportValidity();
+    errorEl.classList.add('show');
+    return;
+  }
+  errorEl.classList.remove('show');
+
+  const val = id => document.getElementById(id).value.trim();
+
+  const payLine = payStatus === 'paid'
+    ? `💰 PAID — ${val('rate')}`
+    : `🚫 UNPAID — Other compensation: ${val('otherComp')}`;
+
+  const lines = [
+    `🎬 ${val('postType').toUpperCase()}: ${val('projectTitle')}`,
+    ``,
+    `Role/Position: ${val('roleNeeded')}`,
+    `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+    `Date(s): ${val('shootDate')}`,
+    `Call time: ${val('callTime')}`,
+    `Est. length of day: ${val('duration')}`,
+    payLine,
+    `Craft services: ${craftStatus}`,
+    `How to apply: ${val('contact')}`,
+  ];
+
+  if(val('extra')){
+    lines.push(``, `Details: ${val('extra')}`);
+  }
+
+  if(payStatus === 'unpaid' && document.getElementById('fairPayNote').checked){
+    lines.push(``, `Note from the mods: if your budget covers other production costs, please consider budgeting for your cast/crew too — even a small day rate, gas, or a meal stipend goes a long way.`);
+  }
+
+  lines.push(``, `— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
+
+  const output = lines.join('\n');
+  document.getElementById('ticketText').textContent = output;
+  document.getElementById('ticket').classList.add('show');
+  document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('ticketText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent = 'Copy post text'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+</script>
+
+</body>
+</html>
