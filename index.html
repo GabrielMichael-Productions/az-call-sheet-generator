@@ -327,7 +327,7 @@
             <option value="Cast/Crew Call">Cast/Crew Call</option>
             <option value="Location Needed">Location Needed</option>
             <option value="Gig / Freelance Work">Gig / Freelance Work</option>
-            <option value="Photographer Needed">Photographer Needed</option>
+            <option value="Photographer">Photographer</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -383,6 +383,16 @@
           </div>
           <div class="stamp-preview" id="stampPreview"></div>
         </div>
+        <div class="field">
+          <label for="unionStatus">Union status <span class="req">*</span></label>
+          <select id="unionStatus" required>
+            <option value="">Choose one</option>
+            <option value="Non-Union">Non-Union</option>
+            <option value="Union">Union</option>
+            <option value="Union / Non-Union (Both)">Union / Non-Union (Both)</option>
+            <option value="SAG-AFTRA Micro-Budget">SAG-AFTRA Micro-Budget</option>
+          </select>
+        </div>
         <div class="field" id="rateField" style="display:none;">
           <label for="rate">Rate <span class="req">*</span></label>
           <input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
@@ -415,7 +425,7 @@
 
       <div class="generate-bar">
         <button type="submit" class="generate">Stamp &amp; Generate Post</button>
-        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid and craft services — before generating.</div>
+        <div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid, union status, and craft services — before generating.</div>
       </div>
     </form>
   </div>
@@ -501,6 +511,7 @@ document.getElementById('callForm').addEventListener('submit', function(e){
     `Date(s): ${val('shootDate')}`,
     `Call Time: ${val('callTime')}`,
     `Estimated Day Length: ${val('duration')}`,
+    `Union Status: ${val('unionStatus')}`,
     payLine,
     `Craft Services: ${craftStatus}`,
     `How to Apply: ${val('contact')}`,
