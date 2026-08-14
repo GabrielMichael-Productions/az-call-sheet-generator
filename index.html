@@ -1,312 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Call Sheet Generator — Filmmaker's Digital Cafe</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-app: #F8FAFC;      
-    --surface-card: #FFFFFF;      
-    --border-subtle: #E2E8F0;  
-    --bg-input: #F1F5F9;     
-    --text-main: #0F172A;  
-    --text-muted: #475569;
-    --text-light: #94A3B8;
-    --brand-blue: #2563EB;
-    --brand-glow: rgba(37, 99, 235, 0.12);
-    --green-success: #059669;   
-    --red-alert: #DC2626; 
-  }
-
-  * { box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Call Sheet & Casting Generator — Filmmaker's Digital Cafe</title>
   
-  body {
-    margin: 0;
-    background-color: var(--bg-app);
-    color: var(--text-main);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    padding: 48px 16px;
-  }
+  <!-- PWA & Mobile App Meta Tags -->
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AZ Call Sheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-  .wrap { max-width: 620px; margin: 0 auto; }
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  header.hero {
-    text-align: center;
-    margin-bottom: 40px;
-  }
+  <style>
+    :root {
+      --bg-app: #F8FAFC;      
+      --surface-card: #FFFFFF;      
+      --border-subtle: #E2E8F0;  
+      --bg-input: #F1F5F9;     
+      --text-main: #0F172A;  
+      --text-muted: #475569;
+      --text-light: #94A3B8;
+      --brand-blue: #2563EB;
+      --brand-glow: rgba(37, 99, 235, 0.12);
+      --green-success: #059669;   
+      --red-alert: #DC2626; 
+    }
 
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--brand-blue);
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 16px 48px;
+    }
 
-  h1 {
-    font-size: clamp(26px, 5vw, 36px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 12px;
-    color: var(--text-main);
-  }
+    .wrap { max-width: 620px; margin: 0 auto; }
 
-  header.hero p {
-    color: var(--text-muted);
-    line-height: 1.6;
-    font-size: 15px;
-    margin: 0 auto;
-    font-weight: 400;
-  }
+    header.hero {
+      text-align: center;
+      margin-bottom: 32px;
+    }
 
-  .sheet {
-    background: var(--surface-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    overflow: hidden;
-    padding: 8px;
-  }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
 
-  .slug {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;
-    padding: 16px 24px 4px;
-    font-size: 11px; 
-    letter-spacing: 0.05em; 
-    text-transform: uppercase; 
-    color: var(--text-light);
-    font-weight: 600;
-  }
+    h1 {
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text-main);
+    }
 
-  fieldset { 
-    border: none; 
-    padding: 24px 24px; 
-    margin: 0; 
-    border-bottom: 1px solid var(--border-subtle); 
-  }
-  fieldset:last-of-type { border-bottom: none; }
-  
-  legend {
-    color: var(--text-main); 
-    font-weight: 700; 
-    padding: 0; 
-    margin-bottom: 20px;
-    font-size: 14px;
-    letter-spacing: -0.01em;
-  }
+    header.hero p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 14px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
 
-  .field { margin-bottom: 20px; }
-  .field:last-child { margin-bottom: 0; }
-  
-  label {
-    display: block; 
-    font-size: 13px; 
-    color: var(--text-muted); 
-    margin-bottom: 8px; 
-    font-weight: 500;
-  }
-  label .req { color: var(--red-alert); margin-left: 2px; }
+    .sheet {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      overflow: hidden;
+      padding: 8px;
+    }
 
-  input[type=text], select, textarea {
-    width: 100%; 
-    font-family: inherit;
-    font-size: 14px; 
-    color: var(--text-main);
-    background: var(--bg-input); 
-    border: 1px solid transparent; 
-    border-radius: 8px;
-    padding: 12px 14px; 
-    outline: none; 
-    transition: all .15s ease-in-out;
-  }
-  input::placeholder, textarea::placeholder { color: var(--text-light); }
-  
-  input:focus, select:focus, textarea:focus { 
-    border-color: var(--brand-blue); 
-    box-shadow: 0 0 0 4px var(--brand-glow);
-    background: #FFFFFF;
-  }
+    .slug {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      padding: 16px 20px 4px;
+      font-size: 11px; 
+      letter-spacing: 0.05em; 
+      text-transform: uppercase; 
+      color: var(--text-light);
+      font-weight: 600;
+    }
 
-  textarea {
-    resize: vertical;
-    min-height: 120px;
-    field-sizing: content; 
-    line-height: 1.6;
-  }
-  
-  select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 16px;
-    padding-right: 40px;
-  }
+    fieldset { 
+      border: none; 
+      padding: 20px; 
+      margin: 0; 
+      border-bottom: 1px solid var(--border-subtle); 
+    }
+    fieldset:last-of-type { border-bottom: none; }
+    
+    legend {
+      color: var(--text-main); 
+      font-weight: 700; 
+      padding: 0; 
+      margin-bottom: 16px;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
 
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 16px; } }
+    .field { margin-bottom: 18px; }
+    .field:last-child { margin-bottom: 0; }
+    
+    label {
+      display: block; 
+      font-size: 13px; 
+      color: var(--text-muted); 
+      margin-bottom: 8px; 
+      font-weight: 500;
+    }
+    label .req { color: var(--red-alert); margin-left: 2px; }
 
-  .stamp-toggle { display: flex; gap: 10px; }
-  
-  .stamp-btn {
-    flex: 1; 
-    padding: 12px; 
-    text-align: center;
-    border: 1px solid var(--border-subtle); 
-    border-radius: 8px; 
-    background: var(--bg-input); 
-    color: var(--text-muted);
-    font-weight: 500;
-    font-size: 14px; 
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  .stamp-btn:hover { background: #E2E8F0; color: var(--text-main); }
-  .stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.08); border-color: var(--green-success); color: var(--green-success); font-weight: 600; }
-  .stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.08); border-color: var(--red-alert); color: var(--red-alert); font-weight: 600; }
+    input[type=text], select, textarea {
+      width: 100%; 
+      font-family: inherit;
+      font-size: 14px; 
+      color: var(--text-main);
+      background: var(--bg-input); 
+      border: 1px solid transparent; 
+      border-radius: 8px;
+      padding: 12px 14px; 
+      outline: none; 
+      transition: all .15s ease-in-out;
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-light); }
+    
+    input:focus, select:focus, textarea:focus { 
+      border-color: var(--brand-blue); 
+      box-shadow: 0 0 0 4px var(--brand-glow);
+      background: #FFFFFF;
+    }
 
-  .stamp-preview { margin-top: 12px; display: none; align-items: center; justify-content: flex-start; }
-  .stamp-preview.show { display: flex; }
-  .stamp-mark {
-    display: inline-block; 
-    border: 1px solid var(--red-alert); 
-    border-radius: 4px; 
-    color: var(--red-alert);
-    font-size: 11px; 
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 3px 8px;
-    background: rgba(220, 38, 38, 0.04);
-  }
-  .stamp-mark.paid { border-color: var(--green-success); color: var(--green-success); background: rgba(5, 150, 105, 0.04); }
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6;
+    }
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
 
-  .craft-row { display: flex; gap: 10px; }
-  @media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
-  
-  .pill {
-    flex: 1; 
-    padding: 12px 10px; 
-    text-align: center; 
-    border: 1px solid var(--border-subtle); 
-    border-radius: 8px;
-    background: var(--bg-input); 
-    cursor: pointer; 
-    font-size: 14px; 
-    font-weight: 500;
-    color: var(--text-muted);
-    transition: all 0.15s ease;
-  }
-  .pill:hover { background: #E2E8F0; color: var(--text-main); }
-  .pill.active { border-color: var(--brand-blue); color: #FFFFFF; background: var(--brand-blue); font-weight: 600; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 14px; } }
 
-  .generate-bar { padding: 8px 24px 24px; }
-  
-  button.generate {
-    width: 100%; 
-    padding: 14px; 
-    background: var(--brand-blue); 
-    color: #FFFFFF;
-    border: none; 
-    border-radius: 8px; 
-    font-weight: 600;
-    font-size: 14px; 
-    cursor: pointer;
-    transition: all 0.15s ease;
-    box-shadow: 0 2px 8px var(--brand-glow);
-  }
-  button.generate:hover { 
-    box-shadow: 0 4px 16px var(--brand-glow);
-    filter: brightness(1.05);
-  }
-  
-  .error { color: var(--red-alert); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
-  .error.show { display: block; }
+    .stamp-toggle { display: flex; gap: 10px; }
+    
+    .stamp-btn {
+      flex: 1; 
+      padding: 12px; 
+      text-align: center;
+      border: 1px solid var(--border-subtle); 
+      border-radius: 8px; 
+      background: var(--bg-input); 
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 14px; 
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .stamp-btn:hover { background: #E2E8F0; color: var(--text-main); }
+    .stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.08); border-color: var(--green-success); color: var(--green-success); font-weight: 600; }
+    .stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.08); border-color: var(--red-alert); color: var(--red-alert); font-weight: 600; }
 
-  .ticket {
-    margin-top: 32px; 
-    background: #090D16; 
-    border: 1px solid #1E293B;
-    border-radius: 12px; 
-    padding: 24px; 
-    display: none; 
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
-  }
-  .ticket.show { display: block; }
-  
-  .ticket-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #1E293B;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-  }
+    .stamp-preview { margin-top: 12px; display: none; align-items: center; justify-content: flex-start; }
+    .stamp-preview.show { display: flex; }
+    .stamp-mark {
+      display: inline-block; 
+      border: 1px solid var(--red-alert); 
+      border-radius: 4px; 
+      color: var(--red-alert);
+      font-size: 11px; 
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      background: rgba(220, 38, 38, 0.04);
+    }
+    .stamp-mark.paid { border-color: var(--green-success); color: var(--green-success); background: rgba(5, 150, 105, 0.04); }
 
-  .ticket .tlabel {
-    font-size: 12px; 
-    letter-spacing: 0.05em; 
-    text-transform: uppercase; 
-    color: #94A3B8;
-    font-weight: 600;
-  }
+    .craft-row { display: flex; gap: 10px; }
+    @media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
+    
+    .pill {
+      flex: 1; 
+      padding: 12px 10px; 
+      text-align: center; 
+      border: 1px solid var(--border-subtle); 
+      border-radius: 8px;
+      background: var(--bg-input); 
+      cursor: pointer; 
+      font-size: 14px; 
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+    .pill:hover { background: #E2E8F0; color: var(--text-main); }
+    .pill.active { border-color: var(--brand-blue); color: #FFFFFF; background: var(--brand-blue); font-weight: 600; }
 
-  .window-dots { display: flex; gap: 6px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
+    .generate-bar { padding: 12px 20px 24px; }
+    
+    button.generate {
+      width: 100%; 
+      padding: 14px; 
+      background: var(--brand-blue); 
+      color: #FFFFFF;
+      border: none; 
+      border-radius: 8px; 
+      font-weight: 600;
+      font-size: 15px; 
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 8px var(--brand-glow);
+    }
+    button.generate:hover { 
+      box-shadow: 0 4px 16px var(--brand-glow);
+      filter: brightness(1.05);
+    }
+    
+    .error { color: var(--red-alert); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
+    .error.show { display: block; }
 
-  #ticketText {
-    white-space: pre-wrap;
-    font-size: 14px; 
-    line-height: 1.6; 
-    color: #E2E8F0;
-  }
+    .ticket {
+      margin-top: 32px; 
+      background: #090D16; 
+      border: 1px solid #1E293B;
+      border-radius: 12px; 
+      padding: 24px; 
+      display: none; 
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    }
+    .ticket.show { display: block; }
+    
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1E293B;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
 
-  .copy-container {
-    border-top: 1px solid #1E293B;
-    margin-top: 24px;
-    padding-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  button.copy {
-    background: var(--brand-blue); 
-    border: none; 
-    border-radius: 6px; 
-    color: #FFFFFF;
-    padding: 10px 18px; 
-    font-size: 13px;
-    font-weight: 600; 
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-  button.copy:hover { filter: brightness(1.1); }
-  button.copy.copied { background: var(--green-success); color: #FFFFFF; }
+    .ticket .tlabel {
+      font-size: 12px; 
+      letter-spacing: 0.05em; 
+      text-transform: uppercase; 
+      color: #94A3B8;
+      font-weight: 600;
+    }
 
-  footer {
-    text-align: center; 
-    padding: 40px 16px 0; 
-    color: #64748B; 
-    font-size: 12px;
-    line-height: 1.6;
-  }
-  footer a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
-  footer a:hover { color: var(--brand-blue); }
-</style>
+    .window-dots { display: flex; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
+
+    #ticketText {
+      white-space: pre-wrap;
+      font-size: 14px; 
+      line-height: 1.6; 
+      color: #E2E8F0;
+    }
+
+    .copy-container {
+      border-top: 1px solid #1E293B;
+      margin-top: 24px;
+      padding-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    button.copy {
+      background: var(--brand-blue); 
+      border: none; 
+      border-radius: 6px; 
+      color: #FFFFFF;
+      padding: 10px 18px; 
+      font-size: 13px;
+      font-weight: 600; 
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.copy:hover { filter: brightness(1.1); }
+    button.copy.copied { background: var(--green-success); color: #FFFFFF; }
+
+    footer {
+      text-align: center; 
+      padding: 36px 16px 0; 
+      color: #64748B; 
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    footer a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
+    footer a:hover { color: var(--brand-blue); }
+  </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
-    <h1>Call Sheet Generator</h1>
+    <h1>Call Sheet &amp; Casting Generator</h1>
     <p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
   </div>
 </header>
@@ -390,7 +400,7 @@
             <option value="Non-Union">Non-Union</option>
             <option value="Union">Union</option>
             <option value="Union / Non-Union (Both)">Union / Non-Union (Both)</option>
-            <option value="SAG-AFTRA">SAG-AFTRA</option>
+            <option value="SAG-AFTRA Micro-Budget">SAG-AFTRA Micro-Budget</option>
           </select>
         </div>
         <div class="field" id="rateField" style="display:none;">
@@ -448,98 +458,111 @@
 </footer>
 
 <script>
-document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  // Date Display
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
 
-let payStatus = null;
-let craftStatus = null;
+  // State
+  let payStatus = null;
+  let craftStatus = null;
 
-document.querySelectorAll('.stamp-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.stamp-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    payStatus = btn.dataset.val;
-    const rateField = document.getElementById('rateField');
-    const otherCompField = document.getElementById('otherCompField');
-    const preview = document.getElementById('stampPreview');
-    if(payStatus === 'paid'){
-      rateField.style.display = 'block';
-      document.getElementById('rate').required = true;
-      otherCompField.style.display = 'none';
-      document.getElementById('otherComp').required = false;
-      preview.innerHTML = '<span class="stamp-mark paid">PAID</span>';
-    } else {
-      rateField.style.display = 'none';
-      document.getElementById('rate').required = false;
-      otherCompField.style.display = 'block';
-      document.getElementById('otherComp').required = true;
-      preview.innerHTML = '<span class="stamp-mark">UNPAID</span>';
+  // Paid/Unpaid Toggle
+  document.querySelectorAll('.stamp-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stamp-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      payStatus = btn.dataset.val;
+      const rateField = document.getElementById('rateField');
+      const otherCompField = document.getElementById('otherCompField');
+      const preview = document.getElementById('stampPreview');
+      if (payStatus === 'paid') {
+        rateField.style.display = 'block';
+        document.getElementById('rate').required = true;
+        otherCompField.style.display = 'none';
+        document.getElementById('otherComp').required = false;
+        preview.innerHTML = '<span class="stamp-mark paid">PAID</span>';
+      } else {
+        rateField.style.display = 'none';
+        document.getElementById('rate').required = false;
+        otherCompField.style.display = 'block';
+        document.getElementById('otherComp').required = true;
+        preview.innerHTML = '<span class="stamp-mark">UNPAID</span>';
+      }
+      preview.classList.add('show');
+    });
+  });
+
+  // Craft Services Pills
+  document.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      craftStatus = p.dataset.craft;
+    });
+  });
+
+  // Form Submit / Output Builder
+  document.getElementById('callForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const errorEl = document.getElementById('formError');
+
+    if (!form.checkValidity() || !payStatus || !craftStatus) {
+      form.reportValidity();
+      errorEl.classList.add('show');
+      return;
     }
-    preview.classList.add('show');
+    errorEl.classList.remove('show');
+
+    const val = id => document.getElementById(id).value.trim();
+
+    const payLine = payStatus === 'paid'
+      ? `Compensation: Paid (${val('rate')})`
+      : `Compensation: Unpaid (Other compensation: ${val('otherComp')})`;
+
+    const lines = [
+      `${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
+      `\n[ PRODUCTION DETAILS ]`,
+      `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+      `Date(s): ${val('shootDate')}`,
+      `Call Time: ${val('callTime')}`,
+      `Estimated Day Length: ${val('duration')}`,
+      `Union Status: ${val('unionStatus')}`,
+      payLine,
+      `Craft Services: ${craftStatus}`,
+      `How to Apply: ${val('contact')}`,
+      `\n[ ROLES & POSITIONS ]`,
+      val('roleNeeded')
+    ];
+
+    if (val('extra')) {
+      lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
+    }
+
+    lines.push(`\n— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
+
+    const output = lines.join('\n');
+    document.getElementById('ticketText').textContent = output;
+    document.getElementById('ticket').classList.add('show');
+    document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-});
 
-document.querySelectorAll('.pill').forEach(p=>{
-  p.addEventListener('click', ()=>{
-    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-    p.classList.add('active');
-    craftStatus = p.dataset.craft;
+  // Copy Clipboard Action
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const text = document.getElementById('ticketText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Post Text'; btn.classList.remove('copied'); }, 2000);
+    });
   });
-});
 
-document.getElementById('callForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const form = e.target;
-  const errorEl = document.getElementById('formError');
-
-  if(!form.checkValidity() || !payStatus || !craftStatus){
-    form.reportValidity();
-    errorEl.classList.add('show');
-    return;
+  // Service Worker Registration for PWA / App capability
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
   }
-  errorEl.classList.remove('show');
-
-  const val = id => document.getElementById(id).value.trim();
-
-  const payLine = payStatus === 'paid'
-    ? `Compensation: Paid (${val('rate')})`
-    : `Compensation: Unpaid (Other compensation: ${val('otherComp')})`;
-
-  const lines = [
-    `${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
-    `\n[ PRODUCTION DETAILS ]`,
-    `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
-    `Date(s): ${val('shootDate')}`,
-    `Call Time: ${val('callTime')}`,
-    `Estimated Day Length: ${val('duration')}`,
-    `Union Status: ${val('unionStatus')}`,
-    payLine,
-    `Craft Services: ${craftStatus}`,
-    `How to Apply: ${val('contact')}`,
-    `\n[ ROLES & POSITIONS ]`,
-    val('roleNeeded')
-  ];
-
-  if(val('extra')){
-    lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
-  }
-
-  lines.push(`\n— posted via Filmmaker's Digital Cafe Call Sheet Generator`);
-
-  const output = lines.join('\n');
-  document.getElementById('ticketText').textContent = output;
-  document.getElementById('ticket').classList.add('show');
-  document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
-});
-
-document.getElementById('copyBtn').addEventListener('click', ()=>{
-  const text = document.getElementById('ticketText').textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = 'Copied ✓';
-    btn.classList.add('copied');
-    setTimeout(()=>{ btn.textContent = 'Copy Post Text'; btn.classList.remove('copied'); }, 2000);
-  });
-});
 </script>
 
 </body>
