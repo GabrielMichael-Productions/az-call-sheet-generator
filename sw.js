@@ -1,4 +1,4 @@
-const CACHE_NAME = 'az-cast-crew-v2';
+const CACHE_NAME = 'az-castcrew-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
