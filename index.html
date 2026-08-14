@@ -1,461 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AZ Cast & Crew Call Generator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AZ Cast/Crew Generator — Filmmaker's Digital Cafe</title>
 
-  <!-- PWA & Mobile App Meta Tags -->
-  <meta name="theme-color" content="#0F172A">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="AZ Cast & Crew">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
+<!-- PWA & Mobile App Meta Tags -->
+<meta name="theme-color" content="#F8FAFC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="AZ Cast/Crew">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 
-  <!-- Typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg-app: #F8FAFC;
+--surface-card: #FFFFFF;
+--border-subtle: #E2E8F0;
+--bg-input: #F1F5F9;
+--text-main: #0F172A;
+--text-muted: #475569;
+--text-light: #94A3B8;
+--brand-blue: #2563EB;
+--brand-glow: rgba(37, 99, 235, 0.12);
+--green-success: #059669;
+--red-alert: #DC2626;
+}
 
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+* { box-sizing: border-box; }
+body {
+margin: 0;
+background-color: var(--bg-app);
+color: var(--text-main);
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+-webkit-font-smoothing: antialiased;
+padding: 48px 16px;
+}
 
-    body {
-      background-color: #0F172A;
-      color: #F8FAFC;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      padding: 30px 16px 60px;
-      -webkit-tap-highlight-color: transparent;
-    }
+.wrap { max-width: 620px; margin: 0 auto; }
 
-    .app-container {
-      width: 100%;
-      max-width: 640px;
-    }
+header.hero {
+text-align: center;
+margin-bottom: 40px;
+}
 
-    /* Header */
-    .header-box {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+.eyebrow {
+font-size: 11px;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(--brand-blue);
+font-weight: 600;
+margin-bottom: 12px;
+}
 
-    .header-box h1 {
-      font-size: 24px;
-      font-weight: 700;
-      color: #FFFFFF;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
+h1 {
+font-size: clamp(26px, 5vw, 36px);
+font-weight: 700;
+letter-spacing: -0.02em;
+margin: 0 0 12px;
+color: var(--text-main);
+}
 
-    .header-box p {
-      font-size: 14px;
-      color: #94A3B8;
-    }
+header.hero p {
+color: var(--text-muted);
+line-height: 1.6;
+font-size: 15px;
+margin: 0 auto;
+font-weight: 400;
+}
 
-    /* Main Form Box */
-    .form-wrapper {
-      background-color: #1E293B;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
+.sheet {
+background: var(--surface-card);
+border: 1px solid var(--border-subtle);
+border-radius: 16px;
+box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+overflow: hidden;
+padding: 8px;
+}
 
-    .form-group {
-      margin-bottom: 18px;
-    }
+.slug {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 16px 24px 4px;
+font-size: 11px;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: var(--text-light);
+font-weight: 600;
+}
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
+fieldset {
+border: none;
+padding: 24px 24px;
+margin: 0;
+border-bottom: 1px solid var(--border-subtle);
+}
+fieldset:last-of-type { border-bottom: none; }
+legend {
+color: var(--text-main);
+font-weight: 700;
+padding: 0;
+margin-bottom: 20px;
+font-size: 14px;
+letter-spacing: -0.01em;
+}
 
-    @media (max-width: 520px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
+.field { margin-bottom: 20px; }
+.field:last-child { margin-bottom: 0; }
+label {
+display: block;
+font-size: 13px;
+color: var(--text-muted);
+margin-bottom: 8px;
+font-weight: 500;
+}
+label .req { color: var(--red-alert); margin-left: 2px; }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #CBD5E1;
-      margin-bottom: 6px;
-    }
+input[type=text], select, textarea {
+width: 100%;
+font-family: inherit;
+font-size: 14px;
+color: var(--text-main);
+background: var(--bg-input);
+border: 1px solid transparent;
+border-radius: 8px;
+padding: 12px 14px;
+outline: none;
+transition: all .15s ease-in-out;
+}
+input::placeholder, textarea::placeholder { color: var(--text-light); }
+input:focus, select:focus, textarea:focus {
+border-color: var(--brand-blue);
+box-shadow: 0 0 0 4px var(--brand-glow);
+background: #FFFFFF;
+}
 
-    input[type="text"],
-    select,
-    textarea {
-      width: 100%;
-      background-color: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      color: #FFFFFF;
-      padding: 10px 12px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+textarea {
+resize: vertical;
+min-height: 120px;
+field-sizing: content;
+line-height: 1.6;
+}
+select {
+appearance: none;
+background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+background-repeat: no-repeat;
+background-position: right 14px center;
+background-size: 16px;
+padding-right: 40px;
+}
 
-    input[type="text"]:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #38BDF8;
-    }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; gap: 16px; } }
 
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
+.stamp-toggle { display: flex; gap: 10px; }
+.stamp-btn {
+flex: 1;
+padding: 12px;
+text-align: center;
+border: 1px solid var(--border-subtle);
+border-radius: 8px;
+background: var(--bg-input);
+color: var(--text-muted);
+font-weight: 500;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.15s ease;
+}
+.stamp-btn:hover { background: #E2E8F0; color: var(--text-main); }
+.stamp-btn.active[data-val="paid"] { background: rgba(5, 150, 105, 0.08); border-color: var(--green-success); color: var(--green-success); font-weight: 600; }
+.stamp-btn.active[data-val="unpaid"] { background: rgba(220, 38, 38, 0.08); border-color: var(--red-alert); color: var(--red-alert); font-weight: 600; }
 
-    /* Buttons / Selectors */
-    .btn-group {
-      display: flex;
-      gap: 8px;
-    }
+.stamp-preview { margin-top: 12px; display: none; align-items: center; justify-content: flex-start; }
+.stamp-preview.show { display: flex; }
+.stamp-mark {
+display: inline-block;
+border: 1px solid var(--red-alert);
+border-radius: 4px;
+color: var(--red-alert);
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.05em;
+padding: 3px 8px;
+background: rgba(220, 38, 38, 0.04);
+}
+.stamp-mark.paid { border-color: var(--green-success); color: var(--green-success); background: rgba(5, 150, 105, 0.04); }
 
-    .toggle-btn {
-      flex: 1;
-      background-color: #0F172A;
-      border: 1px solid #334155;
-      color: #94A3B8;
-      padding: 9px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+.craft-row { display: flex; gap: 10px; }
+@media (max-width: 420px) { .craft-row { flex-direction: column; gap: 8px; } }
+.pill {
+flex: 1;
+padding: 12px 10px;
+text-align: center;
+border: 1px solid var(--border-subtle);
+border-radius: 8px;
+background: var(--bg-input);
+cursor: pointer;
+font-size: 14px;
+font-weight: 500;
+color: var(--text-muted);
+transition: all 0.15s ease;
+}
+.pill:hover { background: #E2E8F0; color: var(--text-main); }
+.pill.active { border-color: var(--brand-blue); color: #FFFFFF; background: var(--brand-blue); font-weight: 600; }
 
-    .toggle-btn.active {
-      background-color: #38BDF8;
-      border-color: #38BDF8;
-      color: #0F172A;
-    }
+.generate-bar { padding: 8px 24px 24px; }
+button.generate {
+width: 100%;
+padding: 14px;
+background: var(--brand-blue);
+color: #FFFFFF;
+border: none;
+border-radius: 8px;
+font-weight: 600;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.15s ease;
+box-shadow: 0 2px 8px var(--brand-glow);
+}
+button.generate:hover {
+box-shadow: 0 4px 16px var(--brand-glow);
+filter: brightness(1.05);
+}
+.error { color: var(--red-alert); font-size: 13px; margin-top: 14px; text-align: center; display: none; font-weight: 500; }
+.error.show { display: block; }
 
-    .submit-btn {
-      width: 100%;
-      background-color: #38BDF8;
-      color: #0F172A;
-      border: none;
-      padding: 13px;
-      font-size: 15px;
-      font-weight: 700;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background-color 0.2s;
-    }
+.ticket {
+margin-top: 32px;
+background: #090D16;
+border: 1px solid #1E293B;
+border-radius: 12px;
+padding: 24px;
+display: none;
+box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+.ticket.show { display: block; }
+.ticket-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #1E293B;
+padding-bottom: 12px;
+margin-bottom: 20px;
+}
 
-    .submit-btn:hover {
-      background-color: #0EA5E9;
-    }
+.ticket .tlabel {
+font-size: 12px;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: #94A3B8;
+font-weight: 600;
+}
 
-    .error-msg {
-      display: none;
-      color: #F87171;
-      font-size: 13px;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
+.window-dots { display: flex; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
 
-    .error-msg.show {
-      display: block;
-    }
+#ticketText {
+white-space: pre-wrap;
+font-size: 14px;
+line-height: 1.6;
+color: #E2E8F0;
+}
 
-    /* Output Card / Ticket */
-    #ticket {
-      display: none;
-      background-color: #1E293B;
-      border: 1px solid #38BDF8;
-      border-radius: 12px;
-      padding: 20px;
-    }
+.copy-container {
+border-top: 1px solid #1E293B;
+margin-top: 24px;
+padding-top: 16px;
+display: flex;
+justify-content: flex-end;
+}
+button.copy {
+background: var(--brand-blue);
+border: none;
+border-radius: 6px;
+color: #FFFFFF;
+padding: 10px 18px;
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.15s ease;
+}
+button.copy:hover { filter: brightness(1.1); }
+button.copy.copied { background: var(--green-success); color: #FFFFFF; }
 
-    #ticket.show {
-      display: block;
-    }
-
-    .ticket-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .ticket-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #38BDF8;
-    }
-
-    .copy-btn {
-      background-color: #38BDF8;
-      color: #0F172A;
-      border: none;
-      padding: 7px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .copy-btn.copied {
-      background-color: #34D399;
-      color: #064E3B;
-    }
-
-    #ticketText {
-      background-color: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 14px;
-      font-family: monospace;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #E2E8F0;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-  </style>
+footer {
+text-align: center;
+padding: 40px 16px 0;
+color: #64748B;
+font-size: 12px;
+line-height: 1.6;
+}
+footer a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.15s ease;}
+footer a:hover { color: var(--brand-blue); }
+</style>
 </head>
 <body>
 
-  <div class="app-container">
+<header class="hero">
+<div class="wrap">
+<div class="eyebrow">Filmmaker's Digital Cafe · Arizona</div>
+<h1>AZ Cast/Crew Generator</h1>
+<p>Fill this in before you post a cast or crew call. It builds the text for you — location, date, rate, craft services, all in one place — so nobody has to DM you asking what you left out.</p>
+</div>
+</header>
 
-    <div class="header-box">
-      <h1>AZ Cast & Crew Call Generator</h1>
-      <p>Standardized plain-text cast and crew call creator</p>
-    </div>
+<main class="wrap">
+<div class="sheet">
+<div class="slug"><span>Production Intake</span><span id="todayDate"></span></div>
 
-    <div class="form-wrapper">
-      <div id="formError" class="error-msg">⚠️ Please fill in all required fields and choose Pay & Craft options.</div>
+<form id="callForm">
+<fieldset>
+<legend>What's this for</legend>
+<div class="field">
+<label for="postType">Post type <span class="req">*</span></label>
+<select id="postType" required>
+<option value="">Choose one</option>
+<option value="Cast Call">Cast Call</option>
+<option value="Crew Call">Crew Call</option>
+<option value="Cast/Crew Call">Cast/Crew Call</option>
+<option value="Location Needed">Location Needed</option>
+<option value="Gig / Freelance Work">Gig / Freelance Work</option>
+<option value="Photographer">Photographer</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="field">
+<label for="projectTitle">Project title <span class="req">*</span></label>
+<input type="text" id="projectTitle" placeholder="e.g. Desert Static" required>
+</div>
+<div class="field">
+<label for="projectType">Project type <span class="req">*</span></label>
+<input type="text" id="projectType" placeholder="e.g. Short, commercial, feature, series, etc." required>
+</div>
+<div class="field">
+<label for="roleNeeded">Role(s) or position needed <span class="req">*</span></label>
+<textarea id="roleNeeded" placeholder="e.g.,&#10;Cast:&#10;- Character name (Age, brief description)&#10;&#10;Crew:&#10;- Position needed (Experience required/kit details)" required></textarea>
+</div>
+</fieldset>
 
-      <form id="callForm">
-        
-        <div class="grid-2">
-          <div class="form-group">
-            <label for="postType">Post Type *</label>
-            <select id="postType" required>
-              <option value="Cast & Crew Call" selected>Cast & Crew Call</option>
-              <option value="Casting Call">Casting Call</option>
-              <option value="Crew Call">Crew Call</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="projectType">Project Format *</label>
-            <select id="projectType" required>
-              <option value="Short Film" selected>Short Film</option>
-              <option value="Feature Film">Feature Film</option>
-              <option value="Documentary">Documentary</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Music Video">Music Video</option>
-              <option value="Web Series">Web Series</option>
-              <option value="Student Film">Student Film</option>
-            </select>
-          </div>
-        </div>
+<fieldset>
+<legend>Where and when</legend>
+<div class="grid2">
+<div class="field">
+<label for="city">City <span class="req">*</span></label>
+<input type="text" id="city" placeholder="e.g. Tucson" required>
+</div>
+<div class="field">
+<label for="locationDetail">Neighborhood / venue (optional)</label>
+<input type="text" id="locationDetail" placeholder="e.g. Downtown, private residence">
+</div>
+</div>
+<div class="grid2">
+<div class="field">
+<label for="shootDate">Date(s) <span class="req">*</span></label>
+<input type="text" id="shootDate" placeholder="e.g. Aug 14–15, 2026" required>
+</div>
+<div class="field">
+<label for="callTime">Call time <span class="req">*</span></label>
+<input type="text" id="callTime" placeholder="e.g. 7:00 AM" required>
+</div>
+</div>
+<div class="field">
+<label for="duration">Estimated length of day <span class="req">*</span></label>
+<input type="text" id="duration" placeholder="e.g. 10 hrs, or wrap by 6 PM" required>
+</div>
+</fieldset>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label for="projectTitle">Project Title *</label>
-            <input type="text" id="projectTitle" placeholder="Project Name" required>
-          </div>
-          <div class="form-group">
-            <label for="unionStatus">Union Status *</label>
-            <select id="unionStatus" required>
-              <option value="Non-Union" selected>Non-Union</option>
-              <option value="SAG-AFTRA Micro-Budget">SAG-AFTRA Micro-Budget</option>
-              <option value="SAG-AFTRA Short Project">SAG-AFTRA Short Project</option>
-              <option value="SAG-AFTRA Modified Low Budget">SAG-AFTRA Modified Low Budget</option>
-              <option value="SAG-AFTRA Theatrical">SAG-AFTRA Theatrical</option>
-            </select>
-          </div>
-        </div>
+<fieldset>
+<legend>Pay and craft services</legend>
+<div class="field">
+<label>Paid or unpaid <span class="req">*</span></label>
+<div class="stamp-toggle">
+<button type="button" class="stamp-btn" data-val="paid">Paid</button>
+<button type="button" class="stamp-btn" data-val="unpaid">Unpaid</button>
+</div>
+<div class="stamp-preview" id="stampPreview"></div>
+</div>
+<div class="field">
+<label for="unionStatus">Union status <span class="req">*</span></label>
+<select id="unionStatus" required>
+<option value="">Choose one</option>
+<option value="Non-Union">Non-Union</option>
+<option value="Union">Union</option>
+<option value="Union / Non-Union (Both)">Union / Non-Union (Both)</option>
+<option value="SAG-AFTRA Micro-Budget">SAG-AFTRA Micro-Budget</option>
+</select>
+</div>
+<div class="field" id="rateField" style="display:none;">
+<label for="rate">Rate <span class="req">*</span></label>
+<input type="text" id="rate" placeholder="e.g. $150/day, or $25/hr">
+</div>
+<div class="field" id="otherCompField" style="display:none;">
+<label for="otherComp">Other compensation <span class="req">*</span></label>
+<input type="text" id="otherComp" placeholder="e.g. IMDb credit, copy of final film, meals + gas — or write 'None'">
+</div>
+<div class="field">
+<label>Craft services available? <span class="req">*</span></label>
+<div class="craft-row">
+<div class="pill" data-craft="Yes">Yes</div>
+<div class="pill" data-craft="No">No</div>
+<div class="pill" data-craft="Snacks/water only">Snacks/water only</div>
+</div>
+</div>
+</fieldset>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label for="city">City / Region *</label>
-            <input type="text" id="city" placeholder="e.g. Phoenix, AZ / Tucson, AZ" required>
-          </div>
-          <div class="form-group">
-            <label for="locationDetail">Location Specifics</label>
-            <input type="text" id="locationDetail" placeholder="e.g. Studio / On Location">
-          </div>
-        </div>
+<fieldset>
+<legend>How to apply</legend>
+<div class="field">
+<label for="contact">Contact method <span class="req">*</span></label>
+<input type="text" id="contact" placeholder="e.g. DM this page, or email you@domain.com" required>
+</div>
+<div class="field">
+<label for="extra">Additional details (optional)</label>
+<textarea id="extra" placeholder="Anything else — wardrobe notes, permit status, group requirements, etc."></textarea>
+</div>
+</fieldset>
 
-        <div class="grid-2">
-          <div class="form-group">
-            <label for="shootDate">Shoot Date(s) *</label>
-            <input type="text" id="shootDate" placeholder="e.g. Oct 12-14" required>
-          </div>
-          <div class="form-group">
-            <label for="callTime">Call Time *</label>
-            <input type="text" id="callTime" placeholder="e.g. 7:00 AM / TBD" required>
-          </div>
-        </div>
+<div class="generate-bar">
+<button type="submit" class="generate">Stamp &amp; Generate Post</button>
+<div class="error" id="formError">Fill in every field marked with a * — including paid/unpaid, union status, and craft services — before generating.</div>
+</div>
+</form>
+</div>
 
-        <div class="form-group">
-          <label for="duration">Estimated Day Length *</label>
-          <input type="text" id="duration" placeholder="e.g. 10-Hour Day / Half Day" required>
-        </div>
+<div class="ticket" id="ticket">
+<div class="ticket-header">
+<div class="tlabel">Generated Output Block</div>
+<div class="window-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+<div id="ticketText"></div>
+<div class="copy-container">
+<button class="copy" id="copyBtn">Copy Post Text</button>
+</div>
+</div>
+</main>
 
-        <!-- Compensation Toggle -->
-        <div class="form-group">
-          <label>Compensation *</label>
-          <div class="btn-group">
-            <button type="button" id="btnPaid" class="toggle-btn active" onclick="setPay('paid')">Paid</button>
-            <button type="button" id="btnUnpaid" class="toggle-btn" onclick="setPay('unpaid')">Unpaid</button>
-          </div>
-        </div>
+<footer>
+Free tool by Gabriel Michael Productions for the Filmmaker's Digital Cafe.<br>
+<a href="https://gabrielmichaelproductions.com" target="_blank">gabrielmichaelproductions.com</a>
+</footer>
 
-        <div id="rateGroup" class="form-group">
-          <label for="rate">Rate Details *</label>
-          <input type="text" id="rate" placeholder="e.g. $250/day or Scale">
-        </div>
+<script>
+document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
 
-        <div id="otherCompGroup" class="form-group" style="display: none;">
-          <label for="otherComp">Other Compensation *</label>
-          <input type="text" id="otherComp" placeholder="e.g. Meals, Copy, Credit, Gas">
-        </div>
+let payStatus = null;
+let craftStatus = null;
 
-        <!-- Craft Services Toggle -->
-        <div class="form-group">
-          <label>Craft Services / Meals *</label>
-          <div class="btn-group">
-            <button type="button" id="btnCraftYes" class="toggle-btn active" onclick="setCraft('Full Meals Provided')">Meals Provided</button>
-            <button type="button" id="btnCraftSnacks" class="toggle-btn" onclick="setCraft('Snacks & Water Provided')">Snacks Only</button>
-            <button type="button" id="btnCraftNo" class="toggle-btn" onclick="setCraft('None / Self-Provided')">None</button>
-          </div>
-        </div>
+document.querySelectorAll('.stamp-btn').forEach(btn=>{
+btn.addEventListener('click', ()=>{
+document.querySelectorAll('.stamp-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+payStatus = btn.dataset.val;
+const rateField = document.getElementById('rateField');
+const otherCompField = document.getElementById('otherCompField');
+const preview = document.getElementById('stampPreview');
+if(payStatus === 'paid'){
+rateField.style.display = 'block';
+document.getElementById('rate').required = true;
+otherCompField.style.display = 'none';
+document.getElementById('otherComp').required = false;
+preview.innerHTML = '<span class="stamp-mark paid">PAID</span>';
+} else {
+rateField.style.display = 'none';
+document.getElementById('rate').required = false;
+otherCompField.style.display = 'block';
+document.getElementById('otherComp').required = true;
+preview.innerHTML = '<span class="stamp-mark">UNPAID</span>';
+}
+preview.classList.add('show');
+});
+});
 
-        <div class="form-group">
-          <label for="roleNeeded">Roles & Positions Needed *</label>
-          <textarea id="roleNeeded" placeholder="[ROLES]&#10;• Character Name (Age range, description)&#10;• Crew Position (Department)" required></textarea>
-        </div>
+document.querySelectorAll('.pill').forEach(p=>{
+p.addEventListener('click', ()=>{
+document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+p.classList.add('active');
+craftStatus = p.dataset.craft;
+});
+});
 
-        <div class="form-group">
-          <label for="extra">Additional Details / Logline</label>
-          <textarea id="extra" placeholder="Brief project summary, guidelines, or requirements..."></textarea>
-        </div>
+document.getElementById('callForm').addEventListener('submit', function(e){
+e.preventDefault();
+const form = e.target;
+const errorEl = document.getElementById('formError');
 
-        <div class="form-group">
-          <label for="contact">How to Apply / Contact *</label>
-          <input type="text" id="contact" placeholder="e.g. email@example.com" required>
-        </div>
+if(!form.checkValidity() || !payStatus || !craftStatus){
+form.reportValidity();
+errorEl.classList.add('show');
+return;
+}
+errorEl.classList.remove('show');
 
-        <button type="submit" class="submit-btn">Generate Cast & Crew Call</button>
-      </form>
-    </div>
+const val = id => document.getElementById(id).value.trim();
 
-    <!-- Output Box -->
-    <div id="ticket">
-      <div class="ticket-header">
-        <span class="ticket-title">Plain-Text Output</span>
-        <button id="copyBtn" class="copy-btn">Copy Post Text</button>
-      </div>
-      <div id="ticketText"></div>
-    </div>
+const payLine = payStatus === 'paid'
+? `Compensation: Paid (${val('rate')})`
+: `Compensation: Unpaid (Other compensation: ${val('otherComp')})`;
 
-  </div>
+const lines = [
+`${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
+`\n[ PRODUCTION DETAILS ]`,
+`Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+`Date(s): ${val('shootDate')}`,
+`Call Time: ${val('callTime')}`,
+`Estimated Day Length: ${val('duration')}`,
+`Union Status: ${val('unionStatus')}`,
+payLine,
+`Craft Services: ${craftStatus}`,
+`How to Apply: ${val('contact')}`,
+`\n[ ROLES & POSITIONS ]`,
+val('roleNeeded')
+];
 
-  <script>
-    let payStatus = 'paid';
-    let craftStatus = 'Full Meals Provided';
+if(val('extra')){
+lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
+}
 
-    function setPay(status) {
-      payStatus = status;
-      document.getElementById('btnPaid').classList.toggle('active', status === 'paid');
-      document.getElementById('btnUnpaid').classList.toggle('active', status === 'unpaid');
-      document.getElementById('rateGroup').style.display = status === 'paid' ? 'block' : 'none';
-      document.getElementById('otherCompGroup').style.display = status === 'unpaid' ? 'block' : 'none';
-    }
+lines.push(`\n— posted via Filmmaker's Digital Cafe AZ Cast/Crew Generator`);
 
-    function setCraft(status) {
-      craftStatus = status;
-      document.getElementById('btnCraftYes').classList.toggle('active', status === 'Full Meals Provided');
-      document.getElementById('btnCraftSnacks').classList.toggle('active', status === 'Snacks & Water Provided');
-      document.getElementById('btnCraftNo').classList.toggle('active', status === 'None / Self-Provided');
-    }
+const output = lines.join('\n');
+document.getElementById('ticketText').textContent = output;
+document.getElementById('ticket').classList.add('show');
+document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
-    // Form Submission
-    document.getElementById('callForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const errorEl = document.getElementById('formError');
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+const text = document.getElementById('ticketText').textContent;
+navigator.clipboard.writeText(text).then(()=>{
+const btn = document.getElementById('copyBtn');
+btn.textContent = 'Copied ✓';
+btn.classList.add('copied');
+setTimeout(()=>{ btn.textContent = 'Copy Post Text'; btn.classList.remove('copied'); }, 2000);
+});
+});
 
-      if (!form.checkValidity() || !payStatus || !craftStatus) {
-        form.reportValidity();
-        errorEl.classList.add('show');
-        return;
-      }
-      errorEl.classList.remove('show');
-
-      const val = id => document.getElementById(id).value.trim();
-
-      const payLine = payStatus === 'paid'
-        ? `Compensation: Paid (${val('rate') || 'Rate Negotiable'})`
-        : `Compensation: Unpaid (Other compensation: ${val('otherComp') || 'Copy, Credit, Meals'})`;
-
-      const lines = [
-        `${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
-        `\n[ PRODUCTION DETAILS ]`,
-        `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
-        `Date(s): ${val('shootDate')}`,
-        `Call Time: ${val('callTime')}`,
-        `Estimated Day Length: ${val('duration')}`,
-        `Union Status: ${val('unionStatus')}`,
-        payLine,
-        `Craft Services: ${craftStatus}`,
-        `How to Apply: ${val('contact')}`,
-        `\n[ ROLES & POSITIONS ]`,
-        val('roleNeeded')
-      ];
-
-      if (val('extra')) {
-        lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
-      }
-
-      lines.push(`\n— posted via AZ Cast & Crew Call Generator`);
-
-      const output = lines.join('\n');
-      document.getElementById('ticketText').textContent = output;
-      document.getElementById('ticket').classList.add('show');
-      document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
-    // Copy Action
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      const text = document.getElementById('ticketText').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = 'Copied ✓';
-        btn.classList.add('copied');
-        setTimeout(() => { 
-          btn.textContent = 'Copy Post Text'; 
-          btn.classList.remove('copied'); 
-        }, 2000);
-      });
-    });
-
-    // Service Worker Registration for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      });
-    }
-  </script>
-
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
 </body>
 </html>
