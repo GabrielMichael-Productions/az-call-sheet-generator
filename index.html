@@ -16,122 +16,72 @@
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-dark: #0B1120;
-      --card-bg: #1E293B;
-      --card-border: #334155;
-      --text-main: #F8FAFC;
-      --text-muted: #94A3B8;
-      --accent-blue: #38BDF8;
-      --accent-blue-hover: #0EA5E9;
-      --accent-green: #34D399;
-      --accent-red: #F87171;
-      --input-bg: #0F172A;
-      --input-border: #334155;
-      --input-focus: #38BDF8;
-    }
-
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      background-color: #0F172A;
+      color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 16px 60px;
+      justify-content: center;
+      padding: 30px 16px 60px;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .container {
+    .app-container {
       width: 100%;
-      max-width: 680px;
+      max-width: 640px;
     }
 
     /* Header */
-    .app-header {
+    .header-box {
       text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 12px;
-    }
-
-    .app-title {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: #FFFFFF;
-      margin-bottom: 6px;
-    }
-
-    .app-subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* Form Container */
-    .form-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 24px 20px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
       margin-bottom: 24px;
     }
 
-    .section-title {
-      font-size: 13px;
+    .header-box h1 {
+      font-size: 24px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent-blue);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
     }
 
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--card-border);
+    .header-box p {
+      font-size: 14px;
+      color: #94A3B8;
+    }
+
+    /* Main Form Box */
+    .form-wrapper {
+      background-color: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     .form-group {
       margin-bottom: 18px;
     }
 
-    .form-row {
+    .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
     }
 
-    @media (max-width: 480px) {
-      .form-row {
+    @media (max-width: 520px) {
+      .grid-2 {
         grid-template-columns: 1fr;
       }
     }
@@ -140,38 +90,28 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: var(--text-main);
+      color: #CBD5E1;
       margin-bottom: 6px;
     }
 
-    .label-hint {
-      font-weight: 400;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-left: 4px;
-    }
-
     input[type="text"],
-    input[type="email"],
     select,
     textarea {
       width: 100%;
-      background-color: var(--input-bg);
-      border: 1px solid var(--input-border);
+      background-color: #0F172A;
+      border: 1px solid #334155;
       border-radius: 8px;
       color: #FFFFFF;
-      padding: 10px 14px;
+      padding: 10px 12px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
 
     input[type="text"]:focus,
-    input[type="email"]:focus,
     select:focus,
     textarea:focus {
-      border-color: var(--input-focus);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+      border-color: #38BDF8;
     }
 
     textarea {
@@ -179,176 +119,138 @@
       min-height: 80px;
     }
 
-    /* Segmented Controls / Toggle Buttons */
-    .toggle-group {
+    /* Buttons / Selectors */
+    .btn-group {
       display: flex;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      padding: 3px;
-      gap: 4px;
+      gap: 8px;
     }
 
     .toggle-btn {
       flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 8px 12px;
+      background-color: #0F172A;
+      border: 1px solid #334155;
+      color: #94A3B8;
+      padding: 9px 12px;
       font-size: 13px;
       font-weight: 600;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s;
-      text-align: center;
     }
 
     .toggle-btn.active {
-      background: var(--accent-blue);
+      background-color: #38BDF8;
+      border-color: #38BDF8;
       color: #0F172A;
     }
 
-    /* Dynamic Compensation Box */
-    .conditional-box {
-      margin-top: 10px;
-    }
-
-    /* Submit Button */
-    .btn-submit {
+    .submit-btn {
       width: 100%;
-      background-color: var(--accent-blue);
+      background-color: #38BDF8;
       color: #0F172A;
       border: none;
-      padding: 14px;
+      padding: 13px;
       font-size: 15px;
       font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
-      margin-top: 10px;
-    }
-
-    .btn-submit:hover {
-      background-color: var(--accent-blue-hover);
-    }
-
-    .btn-submit:active {
-      transform: scale(0.98);
-    }
-
-    .error-banner {
-      display: none;
-      background: rgba(248, 113, 113, 0.15);
-      border: 1px solid var(--accent-red);
-      color: var(--accent-red);
-      padding: 10px 14px;
       border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s;
     }
 
-    .error-banner.show {
+    .submit-btn:hover {
+      background-color: #0EA5E9;
+    }
+
+    .error-msg {
+      display: none;
+      color: #F87171;
+      font-size: 13px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .error-msg.show {
       display: block;
     }
 
     /* Output Card / Ticket */
-    .output-card {
+    #ticket {
       display: none;
-      background-color: #0F172A;
-      border: 1px solid var(--accent-blue);
-      border-radius: 16px;
+      background-color: #1E293B;
+      border: 1px solid #38BDF8;
+      border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
     }
 
-    .output-card.show {
+    #ticket.show {
       display: block;
     }
 
-    .output-header {
+    .ticket-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
     }
 
-    .output-label {
-      font-size: 12px;
+    .ticket-title {
+      font-size: 14px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent-green);
+      color: #38BDF8;
     }
 
-    .btn-copy {
-      background-color: var(--accent-blue);
+    .copy-btn {
+      background-color: #38BDF8;
       color: #0F172A;
       border: none;
-      padding: 8px 16px;
-      font-size: 13px;
+      padding: 7px 14px;
+      font-size: 12px;
       font-weight: 700;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-copy.copied {
-      background-color: var(--accent-green);
+    .copy-btn.copied {
+      background-color: #34D399;
       color: #064E3B;
     }
 
-    .output-text {
-      background: #020617;
-      border: 1px solid var(--card-border);
+    #ticketText {
+      background-color: #0F172A;
+      border: 1px solid #334155;
       border-radius: 8px;
-      padding: 16px;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 14px;
+      font-family: monospace;
       font-size: 13px;
       line-height: 1.5;
       color: #E2E8F0;
       white-space: pre-wrap;
       word-break: break-word;
-      user-select: all;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 12px;
-      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    
-    <!-- Header Section -->
-    <header class="app-header">
-      <span class="badge">Production Utility</span>
-      <h1 class="app-title">AZ Cast & Crew Call Generator</h1>
-      <p class="app-subtitle">Standardized plain-text call builder for professional casting notices and crew calls.</p>
-    </header>
+  <div class="app-container">
 
-    <!-- Error Banner -->
-    <div id="formError" class="error-banner">
-      ⚠️ Please fill in all required fields and select Pay & Meals options.
+    <div class="header-box">
+      <h1>AZ Cast & Crew Call Generator</h1>
+      <p>Standardized plain-text cast and crew call creator</p>
     </div>
 
-    <!-- Generator Form -->
-    <div class="form-card">
+    <div class="form-wrapper">
+      <div id="formError" class="error-msg">⚠️ Please fill in all required fields and choose Pay & Craft options.</div>
+
       <form id="callForm">
         
-        <!-- Post Type & Project Basics -->
-        <div class="section-title">1. Project Overview</div>
-        
-        <div class="form-row">
+        <div class="grid-2">
           <div class="form-group">
-            <label for="postType">Notice Type *</label>
+            <label for="postType">Post Type *</label>
             <select id="postType" required>
-              <option value="Casting Call">Casting Call (Talent)</option>
-              <option value="Crew Call">Crew Call (Technicians / Dept Heads)</option>
-              <option value="Cast & Crew Call" selected>Cast & Crew Call (Both)</option>
+              <option value="Cast & Crew Call" selected>Cast & Crew Call</option>
+              <option value="Casting Call">Casting Call</option>
+              <option value="Crew Call">Crew Call</option>
             </select>
           </div>
           <div class="form-group">
@@ -357,187 +259,175 @@
               <option value="Short Film" selected>Short Film</option>
               <option value="Feature Film">Feature Film</option>
               <option value="Documentary">Documentary</option>
-              <option value="Commercial / Spec">Commercial / Spec</option>
+              <option value="Commercial">Commercial</option>
               <option value="Music Video">Music Video</option>
-              <option value="Web Series / Pilot">Web Series / Pilot</option>
+              <option value="Web Series">Web Series</option>
               <option value="Student Film">Student Film</option>
             </select>
           </div>
         </div>
 
-        <div class="form-row">
+        <div class="grid-2">
           <div class="form-group">
             <label for="projectTitle">Project Title *</label>
-            <input type="text" id="projectTitle" placeholder="e.g. Desert Echoes" required>
+            <input type="text" id="projectTitle" placeholder="Project Name" required>
           </div>
           <div class="form-group">
-            <label for="unionStatus">Union / Guild Status *</label>
+            <label for="unionStatus">Union Status *</label>
             <select id="unionStatus" required>
               <option value="Non-Union" selected>Non-Union</option>
-              <option value="SAG-AFTRA (Micro-Budget)">SAG-AFTRA (Micro-Budget)</option>
-              <option value="SAG-AFTRA (Short Project)">SAG-AFTRA (Short Project)</option>
-              <option value="SAG-AFTRA (Modified Low Budget)">SAG-AFTRA (Modified Low Budget)</option>
-              <option value="SAG-AFTRA (Theatrical)">SAG-AFTRA (Theatrical)</option>
+              <option value="SAG-AFTRA Micro-Budget">SAG-AFTRA Micro-Budget</option>
+              <option value="SAG-AFTRA Short Project">SAG-AFTRA Short Project</option>
+              <option value="SAG-AFTRA Modified Low Budget">SAG-AFTRA Modified Low Budget</option>
+              <option value="SAG-AFTRA Theatrical">SAG-AFTRA Theatrical</option>
             </select>
           </div>
         </div>
 
-        <!-- Production Schedule & Location -->
-        <div class="section-title">2. Dates & Location</div>
-
-        <div class="form-row">
+        <div class="grid-2">
           <div class="form-group">
             <label for="city">City / Region *</label>
             <input type="text" id="city" placeholder="e.g. Phoenix, AZ / Tucson, AZ" required>
           </div>
           <div class="form-group">
-            <label for="shootDate">Shoot Date(s) / Window *</label>
-            <input type="text" id="shootDate" placeholder="e.g. Oct 12–14 or Early November" required>
+            <label for="locationDetail">Location Specifics</label>
+            <input type="text" id="locationDetail" placeholder="e.g. Studio / On Location">
           </div>
         </div>
 
-        <div class="form-row">
+        <div class="grid-2">
           <div class="form-group">
-            <label for="locationDetail">Location Specifics <span class="label-hint">(Optional)</span></label>
-            <input type="text" id="locationDetail" placeholder="e.g. Studio / On-Location / Travel Provided">
+            <label for="shootDate">Shoot Date(s) *</label>
+            <input type="text" id="shootDate" placeholder="e.g. Oct 12-14" required>
           </div>
           <div class="form-group">
-            <label for="duration">Est. Daily Schedule</label>
-            <input type="text" id="duration" placeholder="e.g. 10-Hour Day / Half Day / TBD">
+            <label for="callTime">Call Time *</label>
+            <input type="text" id="callTime" placeholder="e.g. 7:00 AM / TBD" required>
           </div>
         </div>
 
-        <!-- Compensation & Meals -->
-        <div class="section-title">3. Compensation & Meals</div>
-
         <div class="form-group">
-          <label>Pay Structure *</label>
-          <div class="toggle-group">
-            <button type="button" class="toggle-btn active" id="btnPaid" onclick="setPay('paid')">Paid</button>
-            <button type="button" class="toggle-btn" id="btnUnpaid" onclick="setPay('unpaid')">Unpaid / Deferred</button>
+          <label for="duration">Estimated Day Length *</label>
+          <input type="text" id="duration" placeholder="e.g. 10-Hour Day / Half Day" required>
+        </div>
+
+        <!-- Compensation Toggle -->
+        <div class="form-group">
+          <label>Compensation *</label>
+          <div class="btn-group">
+            <button type="button" id="btnPaid" class="toggle-btn active" onclick="setPay('paid')">Paid</button>
+            <button type="button" id="btnUnpaid" class="toggle-btn" onclick="setPay('unpaid')">Unpaid</button>
           </div>
         </div>
 
-        <div id="paidBox" class="form-group conditional-box">
-          <label for="rate">Day Rate / Pay Rate *</label>
-          <input type="text" id="rate" placeholder="e.g. $250/day, $50/hr, or Scale">
+        <div id="rateGroup" class="form-group">
+          <label for="rate">Rate Details *</label>
+          <input type="text" id="rate" placeholder="e.g. $250/day or Scale">
         </div>
 
-        <div id="unpaidBox" class="form-group conditional-box" style="display: none;">
-          <label for="otherComp">Non-Monetary Compensation *</label>
-          <input type="text" id="otherComp" placeholder="e.g. Copy, Credit, Meals + Gas Stipend">
+        <div id="otherCompGroup" class="form-group" style="display: none;">
+          <label for="otherComp">Other Compensation *</label>
+          <input type="text" id="otherComp" placeholder="e.g. Meals, Copy, Credit, Gas">
         </div>
 
+        <!-- Craft Services Toggle -->
         <div class="form-group">
-          <label>Craft Services / Meals Provided? *</label>
-          <div class="toggle-group">
-            <button type="button" class="toggle-btn active" id="btnMealsYes" onclick="setCraft('Full Meals & Craft Services Provided')">Yes (Meals & Craft)</button>
-            <button type="button" class="toggle-btn" id="btnMealsSnacks" onclick="setCraft('Light Snacks & Water Provided')">Snacks Only</button>
-            <button type="button" class="toggle-btn" id="btnMealsNo" onclick="setCraft('Self-Provided / Meal Break Given')">None</button>
+          <label>Craft Services / Meals *</label>
+          <div class="btn-group">
+            <button type="button" id="btnCraftYes" class="toggle-btn active" onclick="setCraft('Full Meals Provided')">Meals Provided</button>
+            <button type="button" id="btnCraftSnacks" class="toggle-btn" onclick="setCraft('Snacks & Water Provided')">Snacks Only</button>
+            <button type="button" id="btnCraftNo" class="toggle-btn" onclick="setCraft('None / Self-Provided')">None</button>
           </div>
         </div>
 
-        <!-- Roles & Details -->
-        <div class="section-title">4. Roles, Positions & Logline</div>
-
         <div class="form-group">
-          <label for="roleNeeded">Roles / Crew Positions Needed *</label>
-          <textarea id="roleNeeded" placeholder="[CAST]&#10;• JOHN (30s-40s) – Intense detective&#10;• SARAH (20s) – Field scientist&#10;&#10;[CREW]&#10;• Sound Recordist&#10;• Gaffer" rows="5" required></textarea>
+          <label for="roleNeeded">Roles & Positions Needed *</label>
+          <textarea id="roleNeeded" placeholder="[ROLES]&#10;• Character Name (Age range, description)&#10;• Crew Position (Department)" required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="extra">Logline / Project Synopsis <span class="label-hint">(Recommended)</span></label>
-          <textarea id="extra" placeholder="A brief 1-2 sentence description of the premise or shoot context..." rows="2"></textarea>
+          <label for="extra">Additional Details / Logline</label>
+          <textarea id="extra" placeholder="Brief project summary, guidelines, or requirements..."></textarea>
         </div>
-
-        <!-- Submission Info -->
-        <div class="section-title">5. How to Submit</div>
 
         <div class="form-group">
-          <label for="contact">Contact Email & Submission Details *</label>
-          <input type="text" id="contact" placeholder="e.g. auditions@filmstudio.com (Subject: [Role Name] - [Your Name])" required>
+          <label for="contact">How to Apply / Contact *</label>
+          <input type="text" id="contact" placeholder="e.g. email@example.com" required>
         </div>
 
-        <button type="submit" class="btn-submit">Generate Cast & Crew Call ⚡</button>
+        <button type="submit" class="submit-btn">Generate Cast & Crew Call</button>
       </form>
     </div>
 
     <!-- Output Box -->
-    <div id="ticket" class="output-card">
-      <div class="output-header">
-        <span class="output-label">✓ Ready for Plain-Text Posting</span>
-        <button id="copyBtn" class="btn-copy">Copy Post Text</button>
+    <div id="ticket">
+      <div class="ticket-header">
+        <span class="ticket-title">Plain-Text Output</span>
+        <button id="copyBtn" class="copy-btn">Copy Post Text</button>
       </div>
-      <div id="ticketText" class="output-text"></div>
+      <div id="ticketText"></div>
     </div>
-
-    <footer>
-      AZ Cast & Crew Call Generator • Professional Plain-Text Standard
-    </footer>
 
   </div>
 
   <script>
-    // State management
     let payStatus = 'paid';
-    let craftStatus = 'Full Meals & Craft Services Provided';
+    let craftStatus = 'Full Meals Provided';
 
-    function setPay(type) {
-      payStatus = type;
-      document.getElementById('btnPaid').classList.toggle('active', type === 'paid');
-      document.getElementById('btnUnpaid').classList.toggle('active', type === 'unpaid');
-      document.getElementById('paidBox').style.display = type === 'paid' ? 'block' : 'none';
-      document.getElementById('unpaidBox').style.display = type === 'unpaid' ? 'block' : 'none';
+    function setPay(status) {
+      payStatus = status;
+      document.getElementById('btnPaid').classList.toggle('active', status === 'paid');
+      document.getElementById('btnUnpaid').classList.toggle('active', status === 'unpaid');
+      document.getElementById('rateGroup').style.display = status === 'paid' ? 'block' : 'none';
+      document.getElementById('otherCompGroup').style.display = status === 'unpaid' ? 'block' : 'none';
     }
 
     function setCraft(status) {
       craftStatus = status;
-      document.getElementById('btnMealsYes').classList.toggle('active', status === 'Full Meals & Craft Services Provided');
-      document.getElementById('btnMealsSnacks').classList.toggle('active', status === 'Light Snacks & Water Provided');
-      document.getElementById('btnMealsNo').classList.toggle('active', status === 'Self-Provided / Meal Break Given');
+      document.getElementById('btnCraftYes').classList.toggle('active', status === 'Full Meals Provided');
+      document.getElementById('btnCraftSnacks').classList.toggle('active', status === 'Snacks & Water Provided');
+      document.getElementById('btnCraftNo').classList.toggle('active', status === 'None / Self-Provided');
     }
 
-    // Form Submission & Text Generation
+    // Form Submission
     document.getElementById('callForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.target;
       const errorEl = document.getElementById('formError');
 
-      if (!form.checkValidity()) {
+      if (!form.checkValidity() || !payStatus || !craftStatus) {
         form.reportValidity();
         errorEl.classList.add('show');
         return;
       }
       errorEl.classList.remove('show');
 
-      const val = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+      const val = id => document.getElementById(id).value.trim();
 
       const payLine = payStatus === 'paid'
         ? `Compensation: Paid (${val('rate') || 'Rate Negotiable'})`
-        : `Compensation: Unpaid / Deferred (${val('otherComp') || 'Copy, Credit, Meals'})`;
+        : `Compensation: Unpaid (Other compensation: ${val('otherComp') || 'Copy, Credit, Meals'})`;
 
       const lines = [
-        `🎬 ${val('postType').toUpperCase()} — ${val('projectTitle')} (${val('projectType')})`,
+        `${val('postType').toUpperCase()}: ${val('projectTitle')} (${val('projectType')})`,
         `\n[ PRODUCTION DETAILS ]`,
-        `• Location: ${val('city')}${val('locationDetail') ? ' (' + val('locationDetail') + ')' : ''}`,
-        `• Shoot Date(s): ${val('shootDate')}`,
-        `• Schedule: ${val('duration') || 'Standard Day'}`,
-        `• Union Status: ${val('unionStatus')}`,
-        `• ${payLine}`,
-        `• Meals: ${craftStatus}`
+        `Location: ${val('city')}${val('locationDetail') ? ' — ' + val('locationDetail') : ''}`,
+        `Date(s): ${val('shootDate')}`,
+        `Call Time: ${val('callTime')}`,
+        `Estimated Day Length: ${val('duration')}`,
+        `Union Status: ${val('unionStatus')}`,
+        payLine,
+        `Craft Services: ${craftStatus}`,
+        `How to Apply: ${val('contact')}`,
+        `\n[ ROLES & POSITIONS ]`,
+        val('roleNeeded')
       ];
 
       if (val('extra')) {
-        lines.push(`\n[ LOGLINE / SYNOPSIS ]`, val('extra'));
+        lines.push(`\n[ ADDITIONAL DETAILS ]`, val('extra'));
       }
 
-      lines.push(`\n[ ROLES & POSITIONS NEEDED ]`, val('roleNeeded'));
-
-      lines.push(
-        `\n[ HOW TO SUBMIT ]`,
-        `• Send submissions to: ${val('contact')}`,
-        `\n— posted via AZ Cast & Crew Call Generator`
-      );
+      lines.push(`\n— posted via AZ Cast & Crew Call Generator`);
 
       const output = lines.join('\n');
       document.getElementById('ticketText').textContent = output;
@@ -545,16 +435,16 @@
       document.getElementById('ticket').scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
-    // Copy to Clipboard Action
+    // Copy Action
     document.getElementById('copyBtn').addEventListener('click', () => {
       const text = document.getElementById('ticketText').textContent;
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copyBtn');
         btn.textContent = 'Copied ✓';
         btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = 'Copy Post Text';
-          btn.classList.remove('copied');
+        setTimeout(() => { 
+          btn.textContent = 'Copy Post Text'; 
+          btn.classList.remove('copied'); 
         }, 2000);
       });
     });
@@ -566,5 +456,6 @@
       });
     }
   </script>
+
 </body>
 </html>
